@@ -5,7 +5,7 @@ from __future__ import division
 
 from six.moves import xrange
 from sys import exit
-from multiprocessing import pool
+from multiprocessing import Pool
 
 import numpy as np
 import scipy
@@ -13,42 +13,72 @@ import math
 
 
 
-
+'''
+regularization = (Σx^2)^1/2
+every vector value / regularization -- > normalizer
+'''
+def normalizer(myvector):
+    my_sum = 0.
+    for myvalue in myvector:
+        my_sum += myvalue * myvalue # power2 and sum
+    if my_sum <= 0.:  # 
+        return myvector
+    my_sum = math.sqrt(my_sum) # regularization
+    newvector = []
+    for myvalue in myvector:
+        newvector.append(myvalue / my_sum) # divided by regularization
+    # return normailized vector
+    return newvector
 
 
 
 def line_process(l):
-    pass
-
+    try:
+        l = l.decode('utf-8').strip().split()
+    except:
+        print(l[0])
+        return (None, None)
+    # 拿到当前word
+    word = l[0].lower()
+    # 循环 该word的vector并正则话
+    vals = normalizer([float(v) for v in l[1:]])
+    return (word, vals)
 
 
 def word2vec(emb_path):
     word2vect = {} # 返回字典
-    pool = Pool(4)
+    p = Pool(4)
     # 多线程处理
     # [token,idx=1], [vector],[vector],[vector]....
-    with open(emb_path, 'r', encoding='utf-8') as f:
-        pairs = pool.map(line_process, f.readlines()[1:])
-    pool.close()
-    pool.join()
+    with open(emb_path, 'rb+') as f:
+        # 因为第一行是 vec file 的shape 即 999995 300
+        # 返回的 pairs 为 [(word, vals), (word2, vals), ...]
+        pairs = p.map(line_process, f.readlines()[1:])
+    p.close()
+    p.join()
     _pairs = []
-    for p in pairs:
-        if p[0] is not None:
-            _pairs.append(p)
+    # 去除None word
+    for i in pairs:
+        if i[0] is not None:
+            _pairs.append(i)
+    print('success')
     return  dict(_pairs)
 
 
 
 def read(emb_path):
     with open(emb_path, 'rb+') as f:
-        
-        for i in f:
-            try:
-                print(i.decode('utf-8'))
-            except:
-                continue
+
+        print(len(f.readlines()))
+        # for i in f.readlines():
+        #     try:
+        #         print(i.decode('utf-8').strip().split()[:5])
+        #         # print(type(i.decode('utf-8')))
+        #     except:
+        #         break
 
 
 if __name__ == "__main__":
-    read('../wiki-news-300d-1M.vec')
-
+    # read('../../wiki-news-300d-1M.vec')
+    x = word2vec('../../wiki-news-300d-1M.vec')
+    print(len(x))
