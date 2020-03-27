@@ -14,6 +14,26 @@ import math
 
 
 '''
+word embedding , embedding lookup
+'''
+
+# word is pos/neg words
+def emblookup(words, word2vec):
+    ret = []
+    for w in words:
+        w = w.lower()
+        # if word2vec do not find the target word , jist skip
+        if w not in word2vec:
+            continue
+        # saving the target word vector into ret
+        ret.append(word2vec[w])
+
+    return ret
+
+
+
+
+'''
 regularization = (Σx^2)^1/2
 every vector value / regularization -- > normalizer
 '''
