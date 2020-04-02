@@ -9,10 +9,12 @@ import os
 import itertools
 import sys
 import random
-import scipy
+from scipy.stats import ortho_group
 import pickle
 import numpy as np
+from random import randint
 
+from my_helper import word2vec, emblookup
 
 random.seed(3)
 # 线程参数设置
@@ -52,7 +54,7 @@ def batches(it, size):
     for item in it:
         batch.append(item)
         # generator, generating fixed size batch
-        if len(len) == size:
+        if len(batch) == size:
             yield batch
             batch = []
     
@@ -67,13 +69,13 @@ class Densifier:
     def __init__(self, alpha, d, ds, lr, batch_size, seed=3):
         self.d = d  # input DIM (300)
         self.ds = ds  # output DIM (1)
-        self.Q = np.matrix(scipy.stats.ortho_group.rvs(d, random_state=seed))
+        self.Q = np.matrix(ortho_group.rvs(d, random_state=seed))
         self.P = np.matrix(np.eye(ds, d))# [1, 300] 单位矩阵， 对角线为1其余为0  index matrix 
         self.D = np.transpose(self.P) * self.P # [1, 1] 1矩阵, D指word在原空间的表达[1, 300]经过正交转换后的在新的超密度空间中的表达[1, 1]
         self.zero_d = np.matrix(np.zeros((self.d, self.d))) # [300, 300] 0 矩阵
         self.lr = lr
         self.batch_size = batch_size
-        self.alpha = alpah   # 超参数 alpha, 表示每一个任务的权重值 (sentiment, concreteness, frequency)   
+        self.alpha = alpha   # 超参数 alpha, 表示每一个任务的权重值 (sentiment, concreteness, frequency)   
 
 
     # loss 梯度更新函数
@@ -105,7 +107,7 @@ class Densifier:
         # same process
         # combination组合迭代器, 输入一个数组和一个组合数, 返回所有组合
         # 返回迭代器迭代 (p1, p2) (p2, p3) (p3, p1)  + (n1, n2)
-        same_ps = [ i for i in iitertools.combinations(pos_vecs, 2)] + \
+        same_ps = [ i for i in itertools.combinations(pos_vecs, 2)] + \
                     [i for i in itertools.combinations(neg_vecs, 2)]
 
 
@@ -117,7 +119,6 @@ class Densifier:
 
             step_orth = 0
             step_print = 0
-
             step_same_loss, step_diff_loss = [], []
 
             # mini_diff format [(pv_a, nv_j), (pv_b, nv_c), ....] len = batch_sz(bs)
@@ -187,8 +188,8 @@ class Densifier:
                 step_diff_loss.append(np.mean(DIFF_LOSS))
 
 
-                if steps_print % 10 == 0:
-                    print("+" * 25)
+                if step_print % 10 == 0:
+                    print("+" * 100)
                     try:
                         print("Diff-loss: {:4f}, Same-loss: {:4f}, LR: {:4f}"
                         .format(np.mean(step_diff_loss),
@@ -217,8 +218,8 @@ class Densifier:
 
 
     def save(self, save_to):
-        with open(save_to, 'w', encoding='utf-8') as f:
-            pickle.dump(self.__dict__, f)
+        with open(save_to, 'wb') as f:
+            pickle.dump(self.__dict__, f, protocol=0)
         
         print('Trained mode saved ...')
                     
@@ -236,33 +237,41 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--LR", type=float, default=5., help="learning rate")
     parser.add_argument("--alpha", type=float, default=.5, help="hyper params balancing two sub-objective")
-    parser.add_argument("--ECP", type=int, default=2., help="epoch")
+    parser.add_argument("--ECP", type=int, default=2, help="epoch")
     parser.add_argument("--OUT_DIM", type=int, default=1, help="output demension")
     parser.add_argument("--BATCH_SIZE", type=int, default=100, help="batch size")
-    parser.add_argument("--EMB_SPACE", type=str, default='./path', help="input embedding space")
+    parser.add_argument("--EMB_SPACE", type=str, default='../../wiki-news-300d-1M.vec', help="input embedding space")
     parser.add_argument("--SAVE_EVERY", type=int, default=1000, help="save every N steps")
-    parser.add_argument("--SAVE_TO", type=str, default='./output/', help="output trained transformation matrix")
-
-    # format [pos_word1, pos_word2, pos_word3, ...]
-    # format [neg_word1, neg_word2, neg_word3, ...]
-    pos_words, neg_words = parse_words(add_bib=False)
+    parser.add_argument("--SAVE_TO", type=str, default='./output/result.pickle', help="output trained transformation matrix")
     
-    # format [(word1,  [vector1]), (word2, [vecor2], ....]
-    myword2vec = word2vec(args.EMB_SPACE)
+    args = parser.parse_args()
 
-    print('finish loading embedding ....')
+    # # format [pos_word1, pos_word2, pos_word3, ...]
+    # # format [neg_word1, neg_word2, neg_word3, ...]
+    # pos_words, neg_words = parse_words(add_bib=False)
+    
+    # # format [(word1,  [vector1]), (word2, [vecor2], ....]
+    # myword2vec = word2vec(args.EMB_SPACE)
 
-    # suffling pos words, neg words
-    map(lambda  x: random.shuffle(x), [pos_words, neg_words])
+    # print('finish loading embedding ....')
 
-    # get pos/neg word vector from embedding table
-    # the tensorflow also provid tf.embedding_loopup(word_index, table)
+    # # suffling pos words, neg words
+    # map(lambda  x: random.shuffle(x), [pos_words, neg_words])
 
-    # pos_vecs format [[posw_v1], [posw_v2], ....]
-    # neg_vecs format [[negw_v1], [megw_v2], ....]
-    pos_vecs, neg_vecs = map(lambda x: emblookup(x, myword2vec), [pos_words, neg_words])
+    # # get pos/neg word vector from embedding table
+    # # the tensorflow also provid tf.embedding_loopup(word_index, table)
+
+    # # pos_vecs format [[posw_v1], [posw_v2], ....]
+    # # neg_vecs format [[negw_v1], [megw_v2], ....]
+    # pos_vecs, neg_vecs = map(lambda x: emblookup(x, myword2vec), [pos_words, neg_words])
 
     
+    # using persudo data replace the true data
+    pos_vecs = [[randint(1, 100) for i in range(10)] for i in range(500)]
+    neg_vecs = [[randint(1, 100) for i in range(10)] for i in range(500)]
+
+
+
     #  if the pos / neg word not exists
     assert(len(pos_vecs)) > 0
     assert(len(neg_vecs)) > 0
@@ -272,8 +281,12 @@ if __name__ == "__main__":
     # args.OUT_DIM --> p=ultradense space dim (output dim)
     # LR ---> learning rate
     # BATCH_SIZE --> 100
-    mydensifier = Densifier(None, 300, args.OUT_DIM, args.LR, args.BATCH_SIZE)
-
+    mydensifier = Densifier(args.alpha, 10, args.OUT_DIM, args.LR, args.BATCH_SIZE)
+    mydensifier.train(args.ECP, 
+                      pos_vecs,
+                      neg_vecs,
+                      args.SAVE_TO,
+                      args.SAVE_EVERY)
 
 
 
