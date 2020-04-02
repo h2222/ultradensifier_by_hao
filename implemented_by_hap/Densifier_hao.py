@@ -10,6 +10,9 @@ import itertools
 import sys
 import random
 import scipy
+import pickle
+import numpy as np
+
 
 random.seed(3)
 # 线程参数设置
@@ -70,31 +73,35 @@ class Densifier:
         self.zero_d = np.matrix(np.zeros((self.d, self.d))) # [300, 300] 0 矩阵
         self.lr = lr
         self.batch_size = batch_size
-        self.alpha = alpah      
+        self.alpha = alpah   # 超参数 alpha, 表示每一个任务的权重值 (sentiment, concreteness, frequency)   
 
 
     # loss 梯度更新函数
     def _gradient(self, loss, vec_diff):
-        # loss 值， 没有shape
+        # loss值为0, 距离为0， 词与词之间没有距离
         # vec_diff [300, 1]
         if loss == 0.:
             print('Waring: check if there are replicated seed words!')
             return self.zero_d[0, :]
 
         # [300, 1] * [1, 300] * [300, 1]/loss
-        # 正交变换
+        # 梯度更新,  U S V^T 
+        # S 为 对角矩阵
+        # U 和 V 为正交变换策略,  UV^T 得出的 Q 为最接近
         return self.Q[0, :] * vec_diff * np.transpose(vec_diff) / loss
 
     def train(self, num_epoch, pos_vecs, neg_vecs, save_to, save_every):
         bs = self.batch_size
         save_step = 0
 
+        # 差异性表达
         # product 函数制造元组,例:
         # itertools.prodcut([p1, p2, p3], [n1, n2])
         # 返回迭代器, 迭代 (p1, n1), (p1, n2), (p2, n1), (p2, n2), (p3, n1), (p3, n2) 
         diff_ps = [ i for i in itertools.product(pos_vecs, neg_vecs)]
 
 
+        # 相似性表达
         # same process
         # combination组合迭代器, 输入一个数组和一个组合数, 返回所有组合
         # 返回迭代器迭代 (p1, p2) (p2, p3) (p3, p1)  + (n1, n2)
@@ -126,10 +133,12 @@ class Densifier:
                 # ew format pv_a ew is the original space word representation of postive words
                 # ev format nv_b ev is the original space word representation of negtive words
 
+                # 差异处理 
                 for ew, ev in mini_diff:
                     EW.append(np.asarray(ew))
                     EV.append(np.asarray(ev))
 
+                # 正向词和负向词在原始空间中的向量表达见得欧式距离
                 # 二维array 各维度相减相减
                 # p-matrix EW [batch_sz, 300] - n-matrix EV [batch_sz, 300]
                 VEC_DIFF = np.asarray(EW) - np.asarray(EV)
@@ -142,22 +151,82 @@ class Densifier:
                 DIFF_LOSS = np.absolute(VEC_DIFF * self.Q[0, :].reshape(self.d, 1))
 
                 for idx in range(len(EW)):
-                    # 使用[0, 0] 因为DIFF_LOSS 返回的为 1x1 的矩阵取[0, 0]获取其对应值
+                    # 使用[0, 0] 因为DIFF_LOSS 返回的为 1x1 的矩阵取[0, 0]获取其对应值, 对应值为当前词之间的距离值
                     # 对于VEC 将取到的对于vector[1, 300] -> [300, 1]
                     # 对每一个词的diff_loss 进行梯度更新
                     diff_grad_step = self._gradient(DIFF_LOSS[idx][0, 0], 
                                                     VEC_DIFF[idx].reshape(self.d, 1))
-                    # 步数加1
+                    # 所有词的梯度差异均值
                     diff_grad.append(diff_grad_step)
 
 
+                # 相似处理
+                EW, EV = [], []
+                for ew, ev in mini_same:
+                    EW.append(np.asarray(ew))
+                    EV.append(np.asarray(ev))
+
+                VEC_SAME = np.asarray(EW) - np.asarray(EV)
+                SAME_LOSS = np.absolute(VEC_SAME * self.Q[0, :].reshape(self.d, 1))
+                for idx in range(len(EW)):
+                    # 计算相似梯度
+                    same_grad_step = self._gradient(SAME_LOSS[idx][0, 0], VEC_SAME[idx].reshape(self.d, 1))
+                    same_grad.append(same_grad_step)
+
+                
+                # [batch_size, 300]
+                diff_grad = np.mean(diff_grad, axis = 0)
+                same_grad = np.mean(same_grad, axis = 0)
 
 
+                # lr * (-2α*Dg + 2(1-α)*Sg)
+                self.Q[0, :] -= self.lr * (-1. * self.alpha * diff_grad * 2. + (1.-self.alpha) * 2.)
 
 
+                step_same_loss.append(np.mean(SAME_LOSS))
+                step_diff_loss.append(np.mean(DIFF_LOSS))
 
 
+                if steps_print % 10 == 0:
+                    print("+" * 25)
+                    try:
+                        print("Diff-loss: {:4f}, Same-loss: {:4f}, LR: {:4f}"
+                        .format(np.mean(step_diff_loss),
+                                np.mean(step_same_loss),
+                                self.lr))
 
+                        print(np.sum(self.Q))
+                    except:
+                        print(np.mean(step_diff_loss))
+                        print(np.mean(step_same_loss))
+                        print(self.lr)
+
+                    step_same_loss, step_diff_loss = [], []
+                
+                if step_orth % sys.maxsize == 0:
+                    self.Q = Densifier.make_orth(self.Q)
+                if save_step % save_every == 0:
+                    self.save(save_to)
+                    print ("Model saved! Step: {}".format(save_step))
+            print ("="*25 + " one epoch finished! ({}) ".format(e) + "="*25)
+            # 学习率减少至原来的0.99
+            self.lr *= 0.99
+        print("Training finished ...")
+        self.save(save_to)
+        
+
+
+    def save(self, save_to):
+        with open(save_to, 'w', encoding='utf-8') as f:
+            pickle.dump(self.__dict__, f)
+        
+        print('Trained mode saved ...')
+                    
+
+    @staticmethod
+    def make_orth(Q):
+        U, _, V = np.linalg.svd(Q)
+        return U * V
 
 
 
@@ -172,7 +241,7 @@ if __name__ == "__main__":
     parser.add_argument("--BATCH_SIZE", type=int, default=100, help="batch size")
     parser.add_argument("--EMB_SPACE", type=str, default='./path', help="input embedding space")
     parser.add_argument("--SAVE_EVERY", type=int, default=1000, help="save every N steps")
-    parser.add_argument("--SAVE_TO", type=str, default='trained_densifier.pkl', help="output trained transformation matrix")
+    parser.add_argument("--SAVE_TO", type=str, default='./output/', help="output trained transformation matrix")
 
     # format [pos_word1, pos_word2, pos_word3, ...]
     # format [neg_word1, neg_word2, neg_word3, ...]
