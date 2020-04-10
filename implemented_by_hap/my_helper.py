@@ -6,7 +6,7 @@ from __future__ import division
 from six.moves import xrange
 from sys import exit
 from multiprocessing import Pool
-
+from multiprocessing import cpu_count
 import numpy as np
 import scipy
 import math
@@ -27,7 +27,7 @@ def emblookup(words, word2vec):
             continue
         # saving the target word vector into ret
         ret.append(word2vec[w])
-
+    print('the size of sentiment words found from embedding table have ', len(ret))
     return ret
 
 
@@ -54,9 +54,9 @@ def normalizer(myvector):
 
 def line_process(l):
     try:
-        l = l.decode('utf-8').strip().split()
+        l = l.strip().split(' ')
     except:
-        print(l[0])
+        print(l[0]) # exception 
         return (None, None)
     # 拿到当前word
     word = l[0].lower()
@@ -67,10 +67,10 @@ def line_process(l):
 
 def word2vec(emb_path):
     word2vect = {} # 返回字典
-    p = Pool(4)
+    p = Pool(cpu_count())
     # 多线程处理
     # [token,idx=1], [vector],[vector],[vector]....
-    with open(emb_path, 'rb+') as f:
+    with open(emb_path, 'r', encoding='utf-8') as f:
         # 因为第一行是 vec file 的shape 即 999995 300
         # 返回的 pairs 为 [(word, vals), (word2, vals), ...]
         pairs = p.map(line_process, f.readlines()[1:])
@@ -87,9 +87,9 @@ def word2vec(emb_path):
 
 
 def read(emb_path):
-    with open(emb_path, 'rb+') as f:
+    with open(emb_path, 'r', encoding='utf-8') as f:
 
-        print(len(f.readlines()))
+        print(f.readlines()[1].strip().split(' '))
         # for i in f.readlines():
         #     try:
         #         print(i.decode('utf-8').strip().split()[:5])
@@ -99,6 +99,6 @@ def read(emb_path):
 
 
 if __name__ == "__main__":
-    # read('../../wiki-news-300d-1M.vec')
-    x = word2vec('../../wiki-news-300d-1M.vec')
+    #read('../TikTok-300d-170h.vec')
+    x = word2vec('../TikTok-300d-170h.vec')
     print(len(x))

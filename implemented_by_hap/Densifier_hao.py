@@ -3,14 +3,13 @@
 # / -> //
 from __future__ import division
 
-
-
 import os
 import itertools
 import sys
 import random
 from scipy.stats import ortho_group
-import pickle
+# import pickle
+import json
 import numpy as np
 from random import randint
 
@@ -31,13 +30,13 @@ from sys import exit
 
 def parse_words(add_bib=False):
     pos, neg = [], []
-    with open('../po_ne_effect/myPos.txt', 'r', encoding='utf-8') as f:
+    with open('../po_ne_effect/pos_cn.txt', 'r', newline='\n', encoding='gbk') as f:
         for line in f.readlines():
             if not add_bib:
                 pos.append(line.strip())
             else:
                 pos.append(line.strip())
-    with open('../po_ne_effect/myNeg.txt', 'r', encoding='utf-8') as f:
+    with open('../po_ne_effect/neg_cn.txt', 'r', newline='\n',encoding='gbk') as f:
         for line in f.readlines():
             if not add_bib:
                 neg.append(line.strip())
@@ -181,7 +180,7 @@ class Densifier:
 
 
                 # lr * (-2α*Dg + 2(1-α)*Sg)
-                self.Q[0, :] -= self.lr * (-1. * self.alpha * diff_grad * 2. + (1.-self.alpha) * 2.)
+                self.Q[0, :] -= self.lr * (-1. * self.alpha * diff_grad * 2. + (1.-self.alpha) * same_grad * 2.)
 
 
                 step_same_loss.append(np.mean(SAME_LOSS))
@@ -218,11 +217,21 @@ class Densifier:
 
 
     def save(self, save_to):
-        with open(save_to, 'wb') as f:
-            pickle.dump(self.__dict__, f, protocol=0)
-        
+        if not os.path.exists(save_to):
+            with open(save_to, 'w', newline='\n', encoding='utf-8') as f:
+                f.write(str(self.__dict__)+'\r\n')
+        else:
+            with open(save_to, 'a',  newline='\n', encoding='utf-8') as f:
+                f.write(str(self.__dict__)+'\r\n')
+            # pickle.dump(self.__dict__, f, protocol=0)        
         print('Trained mode saved ...')
                     
+
+    def save_as_json(self, save_to):
+        if not os.path.exists(save_to):
+            with open(save_to, 'w', encoding='utf-8') as f:
+                # https://www.cnblogs.com/superhin/p/11502830.html
+
 
     @staticmethod
     def make_orth(Q):
@@ -240,35 +249,35 @@ if __name__ == "__main__":
     parser.add_argument("--ECP", type=int, default=2, help="epoch")
     parser.add_argument("--OUT_DIM", type=int, default=1, help="output demension")
     parser.add_argument("--BATCH_SIZE", type=int, default=100, help="batch size")
-    parser.add_argument("--EMB_SPACE", type=str, default='../../wiki-news-300d-1M.vec', help="input embedding space")
+    parser.add_argument("--EMB_SPACE", type=str, default='../TikTok-300d-170h.vec', help="input embedding space")
     parser.add_argument("--SAVE_EVERY", type=int, default=1000, help="save every N steps")
-    parser.add_argument("--SAVE_TO", type=str, default='./output/result.pickle', help="output trained transformation matrix")
+    parser.add_argument("--SAVE_TO", type=str, default='./output/result_TikTok.txt', help="output trained transformation matrix")
     
     args = parser.parse_args()
 
-    # # format [pos_word1, pos_word2, pos_word3, ...]
-    # # format [neg_word1, neg_word2, neg_word3, ...]
-    # pos_words, neg_words = parse_words(add_bib=False)
+    # format [pos_word1, pos_word2, pos_word3, ...]
+    # format [neg_word1, neg_word2, neg_word3, ...]
+    pos_words, neg_words = parse_words(add_bib=False)
     
-    # # format [(word1,  [vector1]), (word2, [vecor2], ....]
-    # myword2vec = word2vec(args.EMB_SPACE)
+    # format [(word1,  [vector1]), (word2, [vecor2], ....]
+    myword2vec = word2vec(args.EMB_SPACE)
 
-    # print('finish loading embedding ....')
+    print('finish loading embedding ....')
 
-    # # suffling pos words, neg words
-    # map(lambda  x: random.shuffle(x), [pos_words, neg_words])
+    # suffling pos words, neg words
+    map(lambda  x: random.shuffle(x), [pos_words, neg_words])
 
-    # # get pos/neg word vector from embedding table
-    # # the tensorflow also provid tf.embedding_loopup(word_index, table)
+    # get pos/neg word vector from embedding table
+    # the tensorflow also provid tf.embedding_loopup(word_index, table)
 
-    # # pos_vecs format [[posw_v1], [posw_v2], ....]
-    # # neg_vecs format [[negw_v1], [megw_v2], ....]
-    # pos_vecs, neg_vecs = map(lambda x: emblookup(x, myword2vec), [pos_words, neg_words])
+    # pos_vecs format [[posw_v1], [posw_v2], ....]
+    # neg_vecs format [[negw_v1], [megw_v2], ....]
+    pos_vecs, neg_vecs = map(lambda x: emblookup(x, myword2vec), [pos_words, neg_words])
 
     
     # using persudo data replace the true data
-    pos_vecs = [[randint(1, 100) for i in range(10)] for i in range(500)]
-    neg_vecs = [[randint(1, 100) for i in range(10)] for i in range(500)]
+    # pos_vecs = [[randint(1, 100) for i in range(10)] for i in range(500)]
+    # neg_vecs = [[randint(1, 100) for i in range(10)] for i in range(500)]
 
 
 
@@ -281,7 +290,7 @@ if __name__ == "__main__":
     # args.OUT_DIM --> p=ultradense space dim (output dim)
     # LR ---> learning rate
     # BATCH_SIZE --> 100
-    mydensifier = Densifier(args.alpha, 10, args.OUT_DIM, args.LR, args.BATCH_SIZE)
+    mydensifier = Densifier(args.alpha, 300, args.OUT_DIM, args.LR, args.BATCH_SIZE)
     mydensifier.train(args.ECP, 
                       pos_vecs,
                       neg_vecs,
