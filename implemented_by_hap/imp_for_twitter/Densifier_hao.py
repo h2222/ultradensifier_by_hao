@@ -30,13 +30,13 @@ from sys import exit
 
 def parse_words(add_bib=False):
     pos, neg = [], []
-    with open('../po_ne_effect/pos_cn.txt', 'r', newline='\n', encoding='gbk') as f:
+    with open('../../po_ne_effect/myPos.txt', 'r', newline='\n', encoding='utf-8') as f:
         for line in f.readlines():
             if not add_bib:
                 pos.append(line.strip())
             else:
                 pos.append(line.strip())
-    with open('../po_ne_effect/neg_cn.txt', 'r', newline='\n',encoding='gbk') as f:
+    with open('../../po_ne_effect/myNeg.txt', 'r', newline='\n',encoding='utf-8') as f:
         for line in f.readlines():
             if not add_bib:
                 neg.append(line.strip())
@@ -158,13 +158,7 @@ class Densifier:
                 # [50, 300] * [300, 1] 
                 # DIFF_LOSS [50, 1]
 
-                # || P * Q * (ew - ev) ||
-                # P :index matrix (1, 0, 0, 0, 0, ...)T   [1, n]  n 为original dimension
-                # Q : 正交矩阵 [n, n]
-                # (ew - ev) -> vec_diif 向量在原    始空间中的间距 [1, n] 
-                #  文章认为所有的情感分类信息在, Q 的第一行中, 所以只取[0, :] 且该实现为了减少参数量
-                # 没有使用 P 作为 index matrix 而是使用 切片[0, :] 和 reshape(d, 1) 的方式
-                # 是 达到 P * Q 的维度为 [1, n] 的目的
+                # 
                 ############
                 DIFF_LOSS = np.absolute(VEC_DIFF * self.Q[0, :].reshape(self.d, 1))
                 
@@ -174,7 +168,7 @@ class Densifier:
                     # 对于VEC 将取到的对于vector[1, 300] -> [300, 1]
                     # 对每一个词的diff_loss 进行梯度更新
                     # print('VEC_DIFF:'+str(idx), np.mean(VEC_DIFF[idx]))
-                    diff_grad_step = self._gradient(-1*DIFF_LOSS[idx][0, 0], 
+                    diff_grad_step = self._gradient(DIFF_LOSS[idx][0, 0], 
                                                     VEC_DIFF[idx].reshape(self.d, 1))
                     # 所有词的梯度差异均值
                     diff_grad.append(diff_grad_step)
@@ -205,6 +199,7 @@ class Densifier:
 
                 step_same_loss.append(np.mean(SAME_LOSS))
                 step_diff_loss.append(np.mean(DIFF_LOSS))
+
 
                 if step_print % 10 == 0:
                     print("+" * 100)
@@ -242,7 +237,7 @@ class Densifier:
         # else:
         #     with open(save_to, 'a',  newline='\n', encoding='utf-8') as f:
         #         f.write(str(self.__dict__)+'\r\n')
-        with open(save_to, 'wb+') as f:
+        with open(save_to, 'w') as f:
             pickle.dump(self.__dict__, f)        
         print('Trained mode saved ...')
                     
@@ -269,9 +264,9 @@ if __name__ == "__main__":
     parser.add_argument("--ECP", type=int, default=2, help="epoch")
     parser.add_argument("--OUT_DIM", type=int, default=1, help="output demension")
     parser.add_argument("--BATCH_SIZE", type=int, default=100, help="batch size")
-    parser.add_argument("--EMB_SPACE", type=str, default='../TikTok-300d-170h.vec', help="input embedding space")
+    parser.add_argument("--EMB_SPACE", type=str, default='../../../wiki-news-300d-1M.vec', help="input embedding space")
     parser.add_argument("--SAVE_EVERY", type=int, default=1000, help="save every N steps")
-    parser.add_argument("--SAVE_TO", type=str, default='./output/result_TikTok.txt', help="output trained transformation matrix")
+    parser.add_argument("--SAVE_TO", type=str, default='./output/result_wiki.pickle', help="output trained transformation matrix")
     
     args = parser.parse_args()
 

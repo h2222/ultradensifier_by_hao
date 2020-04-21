@@ -7,17 +7,8 @@ from random import randint
 import itertools
 import sys
 
-x = special_ortho_group.rvs(3)
-
-print(x)
-
-# print(np.dot(x, x.T))
-
-# print(np.eye(300, 1))
 
 
-
-Q = np.matrix(scipy.stats.ortho_group.rvs(10, random_state=3))
 # print(Q[0, :].shape)
 
 # batch_sz = 50
@@ -30,6 +21,7 @@ Q = np.matrix(scipy.stats.ortho_group.rvs(10, random_state=3))
 # print(x[1][0,0])
 
 
+ Q = np.matrix(scipy.stats.ortho_group.rvs(10, random_state=5))
 
 
 def gradient(loss, vec_diff):
@@ -98,11 +90,12 @@ if __name__ == "__main__":
     neg_v = [[randint(1, 100) for i in range(10)] for i in range(5)]
 
 
-    # train(pos_v, neg_v)
+    train(pos_v, neg_v)
 
 
+    Q = np.matrix(scipy.stats.ortho_group.rvs(10, random_state=5))
 
-    print(sys.maxsize)
+    print(Q[0,:])
 
 
 

@@ -26,6 +26,18 @@ class Embedding:
         norm = np.sqrt(np.sum(self.m * self.m, axis=1))
         self.m = self.m / norm[:, np.newaxis]
         self.normalized = True
+    
+    
+    def represent(self, w):
+        # 根据word 取到对应向量 (word 来源于正向/负向词对)
+        # 如果 seed word 在 原始word embedding table 中找得到
+        # 返回对应向量, 找不到返回同等大小的0向量
+        if w in self.wi:
+            return self.m[self.wi[w], :]
+        else:
+            return np.zeros(self.dim)
+
+
 
     @classmethod
     def from_fasttext_vec(cls,
