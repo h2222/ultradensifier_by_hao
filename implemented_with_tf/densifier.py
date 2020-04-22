@@ -54,7 +54,7 @@ class Densifier:
                                         optimizer='sgd',
                                         orthogonalize=True,
                                         alpha=alpha,
-                                        training_steps=1000) #3000
+                                        training_steps=100) #3000
 
             # P*Q* m     m [batch_sz, dim]     Q [dim, dim]    P [dim, 1] 
             # induced_lexicon[var]  shape 为[batch_size, 1]
@@ -81,10 +81,15 @@ class Densifier:
         #   参数keep表示保留第一次出现的重复值
         preds = preds[~preds.index.duplicated(keep='frist')]
 
+        print('--'*30)
+        print(preds)
+        
         ### rescalling pred size
         preds = scale_prediction_to_seed(preds=preds,
                                          seed_lexicon=self.seed_lexicon)
 
+        print('--'*30)
+        print(preds)
         return preds
 
 
@@ -96,7 +101,7 @@ class Densifier:
             # 使用验证集取做预测
 
             print('8'*60)
-            print(gold_lex)
+            print(gold_lex.index)
             return(evall(gold_lex, self.predict(gold_lex.index)))
 
     
@@ -109,7 +114,6 @@ class Densifier:
         # 结果指标 V A D
         result_df = pd.DataFrame(columns=labels.columns)
 
-
         # KFold 函数, n_split 将label划分k_folds个互斥子集, 
 
         # 例如 labels的shape 为 [1030, 3] 1030 是 vocab_size, 3为VAD三个维度
@@ -118,17 +122,24 @@ class Densifier:
         kf = KFold(n_splits=k_folds, shuffle=True).split(labels)
 
         # print(next(kf))
+        k = 0
         for i, split in enumerate(kf):
             # split = next(kf)
             train = labels.iloc[split[0]]
             test = labels.iloc[split[1]]
+            k += 1
             print('训练次数', i) # 打印训练次数
             self.fit(train) # train 为[927, 3] 的df
             
             #返回结果, 交叉验证
-            result_df.loc[k] = self.eval_densifier(test)
-            result_df = average_results_df(result_df)
-        result_df.to_excel('./result_df.xlsx', sheet_name=0, index='False', encoding='utf-8')
+            x = self.eval_densifier(test)
+            print(x)
+            print('label_columns', labels.columns)
+            print('rrrrrr', result_df)
+            result_df = result_df.append({'Valence':x[0], 'Arousal':x[1], 'Dominance':x[2]}, ignore_index=True)
+            #result_df.loc[k] = x
+        result_df = average_results_df(result_df)
+        result_df.to_csv('./result_by_hao.csv', encoding='utf-8')
             
 
 
@@ -334,7 +345,7 @@ if __name__ == "__main__":
     labels = load_anew99(path='./Utils/anew99.csv')
     print(labels.shape)    
     densifier = Densifier(embeddings=emb)
-    densifier.crossvalidate(labels=labels)
+    densifier.crossvalidate(labels=labels, k_folds=2)
 
 
 

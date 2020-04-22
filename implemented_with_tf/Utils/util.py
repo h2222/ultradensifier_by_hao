@@ -49,6 +49,8 @@ def scale_prediction_to_seed(preds, seed_lexicon):
                                   newmin=seed_mins[var],
                                   newmax=seed_maxes[var])
 
+    return preds
+
 
 def average_results_df(results_df):
     avg=results_df.mean(axis=0)
