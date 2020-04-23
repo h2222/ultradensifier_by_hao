@@ -81,15 +81,21 @@ def load_anew99(path='./anew99.csv'):
     anew.set_index('Word', inplace=True)
     return anew
 
+def load_cnseed(path='../cn_seed.csv'):
+    cn_seed = pd.read_csv(path, encoding='utf-8')
+    cn_seed.set_index('word', inplace=True)
+
+    return cn_seed
+
+
+
 
 if __name__ == "__main__":
-    emb = Embedding.from_fasttext_vec(path='./densifier_test.vec')
-
-    print(emb.m)
-    print(emb.wi)
-    print(emb.iw)
-    print(emb.dim)
+    emb = Embedding.from_fasttext_vec(path='./TikTok-300d-170h.vec')
+    # print(emb.m)
+    # print(emb.wi)
 
     # anew test
     print(load_anew99())
+    print(load_cnseed().columns)
 
