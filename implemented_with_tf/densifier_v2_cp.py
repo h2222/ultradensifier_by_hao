@@ -55,7 +55,7 @@ class Densifier:
                                     alpha=alpha,
                                     training_steps=3000) #3000
 
-        # P*Q* m     m [batch_sz, dim]     Q [dim, dim]    P [dim, 1] 
+        # P*Q* m     m [vocab_size, dim]     Q [dim, dim]    P [dim, 1] 
         # induced_lexicon['sentiment']  s[batch_size, 1]
 
         self.induced_lexicon = self.embeddings.m.dot(self.Qs).dot(self.P)
@@ -125,7 +125,6 @@ class Densifier:
 
 
 
-x
 
     def vec(self, word):
         return self.embeddings.represent(word)
