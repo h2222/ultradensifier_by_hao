@@ -1,4 +1,6 @@
 #coding=utf-8
+
+
 import os
 import itertools
 import tensorflow as tf
@@ -26,6 +28,13 @@ class Densifier:
 
         # self.Qs = {} # 将情感倾向映射为 matrix 并存储在 Qs中
     
+
+
+    def  train_lexicon(self, labels, save_path):
+        self.fit(labels)
+        self.induced_lexicon.to_csv(save_path, index=False, encoding='utf-8')
+    
+
     def fit(self,
             seed_lexicon, # training label, dataframe, [train_seed, sentiment]
             binarization_threshold=.5,
@@ -67,154 +76,13 @@ class Densifier:
         
         print('描述性统计', self.induced_lexicon.describe())        
 
-    def predict(self, words):
-
-        print('--'*30)
-        #print(self.induced_lexicon)
-
-        # preds dataframe 行size = vocab size , 列 = V A D
-
-        preds = pd.DataFrame(columns=self.seed_lexicon.columns, index=words)
-        mean = self.induced_lexicon['sentiment'].mean()
-
-        for word in words:
-            if not word in list(self.induced_lexicon.index):
-                preds.loc[word, 'sentiment'] = 'invalid'
-            else:
-                preds.loc[word, 'sentiment'] = self.induced_lexicon.loc[word, 'sentiment']
-        
-
-        ### 删除pandas dataframe中index重复的行
-        #   参数keep表示保留第一次出现的重复值
-        #preds = preds[~preds.index.duplicated(keep='frist')]
-
-        def rule(x):
-            if x == 'invalid':
-                return x
-            else:
-                if x >= mean:
-                    return '+'
-                else:
-                    return '-'
-
-        preds['sentiment'] = preds['sentiment'].apply(rule)
-
-
-        print('--'*30)
-        print('打印均值', mean)
-        print('预测结果', preds)
-
-        ### rescalling pred size
-        # preds = scale_prediction_to_seed(preds=preds,
-                                        #  seed_lexicon=self.seed_lexicon)
-        return preds
-
-
-    def eval_densifier(self, gold_lex):
-        # inducd_lexicon 初始化 dataframe, 行size为vocab_size, 列为 VAD
-        if self.induced_lexicon is None:
-            raise ValueError('Embedding need to be transformed first! Run "fit"!')
-        else:
-            # 使用验证集取做预测
-
-            print('..'*60)
-
-            preds = self.predict(gold_lex.index)
-            
-            # 去除空值
-            #invalid_idx = preds.loc[preds['sentiment'] == 'invalid'].index
-            #gold_lex.drop(invalid_idx)
-            #preds = preds.drop(invalid_idx)            
-
-            TP, FP, TN, FN = 0, 0, 0, 0
-            x = list(gold_lex.index)
-            #print('index list', x)
-                
-            print(x[:20])
-            print('--'*20)
-            print(gold_lex.index)
-            print('--'*20)
-            print(preds.index)
-              
-            #print(preds.loc[x[0], 'sentiment'])
-
-            for x in iter(x):
-                true = str(gold_lex.loc[x, 'sentiment'])
-                pred = str(preds.loc[x, 'sentiment'])
-                if true == '+' and pred == '+':
-                    TP += 1
-                elif true == '+' and pred != '+':
-                    FP += 1
-                elif true == '-' and pred == '-':
-                    TN += 1
-                elif true == '-' and pred != '-':
-                    FN += 1
-
-            # TP FP TN FP             
-            #评估
-            p, n = {}, {}
-            print('positive 预测')
-            p['name'] = 'positive'
-            p['recall'] = TP / (TP + FN)
-            p['precision'] = TP / (TP + FP)
-            p['accuracy'] = TP / (TP + FP + TN + FN)
-            #p['F1'] = (p['recall'] * p['precision'] * 2) / (p['recall'] + p['precision'])
-
-            print('negative 预测')
-            n['name'] = 'postive'
-            n['recall'] = TN / (TN + FP)
-            n['precision'] = TN / (TN + FN)
-            n['accuracy'] = TN / (TP + FP + TN + FN)
-            #n['F1'] = (n['recall'] * n['precision'] * 2) / (n['recall'] + n['precision']) 
-            
-            #print(gold_lex.index)
-            #return(evall(gold_lex, self.predict(gold_lex.index)))
-            return  p, n
-
- 
-
-    def  train_lexicon(self, labels):
-        self.fit(labels)
-        self.induced_lexicon.to_csv('./lexicon.csv', index=False, encoding='utf-8')
 
 
    
 
-    def crossvalidate(self, labels, k_folds=2):
-        '''
-        labels : dataframe, axis0 = 情感倾向中文 , axis1 = 情感倾向 '+/-'
-        '''
-
-        # KFold 函数, n_split 将label划分k_folds个互斥子集, 进行K_folds次验证, 分类任务类别数为n_splits
-        kf = KFold(n_splits=k_folds, shuffle=True).split(labels)
-        
-        save_df = pd.DataFrame(columns=['name', 'recall', 'precision', 'accuracy'])
-
-        for i, split in enumerate(kf):
-            # split = next(kf)
-            train = labels.iloc[split[0]]
-            test = labels.iloc[split[1]]
-
-             
-
-            print('训练次数', i) # 打印训练次数
-            self.fit(train) # train 为[split_n, sentiment]
-            
-            #返回结果, 交叉验证
-
-
-            #print('训练集格式', test)
-            #print('训练集')
-
-            p, n = self.eval_densifier(gold_lex=train)
-            save_df = save_df.append(p, ignore_index=True)
-            save_df = save_df.append(n, ignore_index=True)
-        
-        save_df.to_csv('./result_by_hao_2.csv', encoding='utf-8')
-            
-
     def vec(self, word):
         return self.embeddings.represent(word)
+
 
     def train_Q(self,
                 pos, # 正项词index list 
@@ -392,13 +260,12 @@ class Batch_Gen:
 
 
 if __name__ == "__main__":
-    emb = Embedding.from_fasttext_vec(path='./Utils/TikTok-300d-170h.vec')
+    emb = Embedding.from_fasttext_vec(path='./Utils/????.vec')
     labels = load_cnseed(path='./cn_seed.csv')
-    #print(Densifier.binarize(labels))
+
 
     densifier = Densifier(embeddings=emb)
-    densifier.train_lexicon(labels)
-    #densifier.crossvalidate(labels=labels, k_folds=2)
+    densifier.train_lexicon(labels, save_path='./output/lexicon.txt')
 
 
 
