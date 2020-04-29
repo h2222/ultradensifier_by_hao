@@ -74,14 +74,14 @@ class Embedding:
                    word2index=wi,
                    normalize=normalize)            
 
-def load_anew99(path='./anew99.csv'):
+def load_anew99(path='./source/anew99.csv'):
     anew = pd.read_csv(path, encoding='utf-8')
     anew.columns = ['Word', 'Valence', 'Arousal', 'Dominance']
 
     anew.set_index('Word', inplace=True)
     return anew
 
-def load_cnseed(path='../cn_seed.csv'):
+def load_cnseed(path='./source/cn_seed.csv'):
     cn_seed = pd.read_csv(path, encoding='utf-8')
     cn_seed.set_index('word', inplace=True)
 
@@ -91,7 +91,7 @@ def load_cnseed(path='../cn_seed.csv'):
 
 
 if __name__ == "__main__":
-    emb = Embedding.from_fasttext_vec(path='./TikTok-300d-170h.vec')
+    emb = Embedding.from_fasttext_vec(path='./source/TikTok-300d-170h.vec')
     # print(emb.m)
     # print(emb.wi)
 

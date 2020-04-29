@@ -11,10 +11,8 @@ from sklearn.model_selection import KFold
 from Utils import (evall, average_results_df, Embedding, load_cnseed, scale_prediction_to_seed)
 
 
-
-
 os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "3"
 
 class Densifier:
     
@@ -24,6 +22,7 @@ class Densifier:
         self.P = np.zeros(shape=[self.d, 1])  # index matrix 
         self.P[0, 0] = 1 # 文章认为, transfer matrix Q 的第一个, 代表词的情感倾向
         self.seed_lexicon = None
+        self.induced_lexicon = None
 
         # self.Qs = {} # 将情感倾向映射为 matrix 并存储在 Qs中
     
@@ -35,50 +34,76 @@ class Densifier:
         tf.reset_default_graph()
         self.seed_lexicon = seed_lexicon
         # index : vec word, columns = [sentiment]
-        # self.induced_lexicon = pd.DataFrame(columns=self.seed_lexicon.columns,
-                                            # index=self.embeddings.iw)
+        self.induced_lexicon = pd.DataFrame(columns=self.seed_lexicon.columns,
+                                            index=self.embeddings.iw)
 
         # 二值化 pos/neg
         binarized_lexicon = self.binarize()
 
 
         print('='*100)
-        print(binarized_lexicon)
+        #print(binarized_lexicon)
 
 
         # training per word
-        self.Qs = self.train_Q(pos=binarized_lexicon['sentiment']['pos'],
+        self.train_Q(pos=binarized_lexicon['sentiment']['pos'],
                                     neg=binarized_lexicon['sentiment']['neg'],
                                     batch_size=100, #100
                                     optimizer='sgd',
-                                    orthogonalize=True,
+                                    orthogonalize=False,
                                     alpha=alpha,
-                                    training_steps=3000) #3000
+                                    training_steps=30000) #3000 x 100
 
+        self.induced_lexicon['sentiment'] = self.embeddings.m.dot(self.Qs).dot(self.P)
+        self.induced_lexicon.to_csv('./step/step_save'+str(i_step)+'.csv', index=True, encoding='utf-8')
         # P*Q* m     m [vocab_size, dim]     Q [dim, dim]    P [dim, 1] 
         # induced_lexicon['sentiment']  s[batch_size, 1]
 
-        self.induced_lexicon = self.embeddings.m.dot(self.Qs).dot(self.P)
-    
+        #print('最终结果', self.induced_lexicon)
+        print('最大值最小值词', 
+              self.induced_lexicon.sort_values(by='sentiment', axis=0).head(100),
+              '-------- \n', 
+              self.induced_lexicon.sort_values(by='sentiment', axis=0, ascending=False).head(100))
+        
+        print('描述性统计', self.induced_lexicon.describe())        
+
     def predict(self, words):
 
         print('--'*30)
-        print(self.induced_lexicon)
+        #print(self.induced_lexicon)
 
         # preds dataframe 行size = vocab size , 列 = V A D
-        preds = self.induced_lexicon.loc[words]        
+
+        preds = pd.DataFrame(columns=self.seed_lexicon.columns, index=words)
+        mean = self.induced_lexicon['sentiment'].mean()
 
         for word in words:
-            if not word in self.induced_lexicon.index:
-                preds.loc[word] = 'invalid'
+            if not word in list(self.induced_lexicon.index):
+                preds.loc[word, 'sentiment'] = 'invalid'
+            else:
+                preds.loc[word, 'sentiment'] = self.induced_lexicon.loc[word, 'sentiment']
+        
 
         ### 删除pandas dataframe中index重复的行
         #   参数keep表示保留第一次出现的重复值
-        preds = preds[~preds.index.duplicated(keep='frist')]
+        #preds = preds[~preds.index.duplicated(keep='frist')]
+
+        def rule(x):
+            if x == 'invalid':
+                return x
+            else:
+                if x >= mean:
+                    return '+'
+                else:
+                    return '-'
+
+        preds['sentiment'] = preds['sentiment'].apply(rule)
+
 
         print('--'*30)
-        print(preds)
-        
+        print('打印均值', mean)
+        print('预测结果', preds)
+
         ### rescalling pred size
         # preds = scale_prediction_to_seed(preds=preds,
                                         #  seed_lexicon=self.seed_lexicon)
@@ -93,38 +118,100 @@ class Densifier:
             # 使用验证集取做预测
 
             print('..'*60)
-            print(gold_lex.index)
-            return(evall(gold_lex, self.predict(gold_lex.index)))
 
-    
+            preds = self.predict(gold_lex.index)
+            
+            # 去除空值
+            #invalid_idx = preds.loc[preds['sentiment'] == 'invalid'].index
+            #gold_lex.drop(invalid_idx)
+            #preds = preds.drop(invalid_idx)            
+
+            TP, FP, TN, FN = 0, 0, 0, 0
+            x = list(gold_lex.index)
+            #print('index list', x)
+                
+            print(x[:20])
+            print('--'*20)
+            print(gold_lex.index)
+            print('--'*20)
+            print(preds.index)
+              
+            #print(preds.loc[x[0], 'sentiment'])
+
+            for x in iter(x):
+                true = str(gold_lex.loc[x, 'sentiment'])
+                pred = str(preds.loc[x, 'sentiment'])
+                if true == '+' and pred == '+':
+                    TP += 1
+                elif true == '+' and pred != '+':
+                    FP += 1
+                elif true == '-' and pred == '-':
+                    TN += 1
+                elif true == '-' and pred != '-':
+                    FN += 1
+
+            # TP FP TN FP             
+            #评估
+            p, n = {}, {}
+            print('positive 预测')
+            p['name'] = 'positive'
+            p['recall'] = TP / (TP + FN)
+            p['precision'] = TP / (TP + FP)
+            p['accuracy'] = TP / (TP + FP + TN + FN)
+            #p['F1'] = (p['recall'] * p['precision'] * 2) / (p['recall'] + p['precision'])
+
+            print('negative 预测')
+            n['name'] = 'postive'
+            n['recall'] = TN / (TN + FP)
+            n['precision'] = TN / (TN + FN)
+            n['accuracy'] = TN / (TP + FP + TN + FN)
+            #n['F1'] = (n['recall'] * n['precision'] * 2) / (n['recall'] + n['precision']) 
+            
+            #print(gold_lex.index)
+            #return(evall(gold_lex, self.predict(gold_lex.index)))
+            return  p, n
+
+ 
+
+    def  train_lexicon(self, labels):
+        self.fit(labels)
+        self.induced_lexicon.to_csv('./lexicon.csv', index=False, encoding='utf-8')
+
+
+   
 
     def crossvalidate(self, labels, k_folds=2):
         '''
         labels : dataframe, axis0 = 情感倾向中文 , axis1 = 情感倾向 '+/-'
         '''
-        # 结果指标 sentiment
-        result_df = pd.DataFrame(columns=labels.columns)
 
         # KFold 函数, n_split 将label划分k_folds个互斥子集, 进行K_folds次验证, 分类任务类别数为n_splits
         kf = KFold(n_splits=k_folds, shuffle=True).split(labels)
+        
+        save_df = pd.DataFrame(columns=['name', 'recall', 'precision', 'accuracy'])
 
         for i, split in enumerate(kf):
             # split = next(kf)
             train = labels.iloc[split[0]]
             test = labels.iloc[split[1]]
+
+             
+
             print('训练次数', i) # 打印训练次数
-            self.fit(train) # train 为[927, 3] 的df
+            self.fit(train) # train 为[split_n, sentiment]
             
             #返回结果, 交叉验证
-            # x = self.eval_densifier(test)
-            # result_df = result_df.append({'Valence':x[0], 'Arousal':x[1], 'Dominance':x[2]}, ignore_index=True)
-            #result_df.loc[k] = x
-        # result_df = average_results_df(result_df)
-        # result_df.to_csv('./result_by_hao.csv', encoding='utf-8')
+
+
+            #print('训练集格式', test)
+            #print('训练集')
+
+            p, n = self.eval_densifier(gold_lex=train)
+            save_df = save_df.append(p, ignore_index=True)
+            save_df = save_df.append(n, ignore_index=True)
+        
+        save_df.to_csv('./result_by_hao_2.csv', encoding='utf-8')
             
-
-
-
 
     def vec(self, word):
         return self.embeddings.represent(word)
@@ -135,7 +222,7 @@ class Densifier:
                 alpha,
                 batch_size,
                 optimizer='sgd',
-                orthogonalize=True,
+                orthogonalize=False,
                 training_steps=4000):
 
         '''
@@ -252,13 +339,15 @@ class Densifier:
                     if i_step%100 == 0:
                         curr_Q = Q.eval(session=sess)
                         Q_diff = np.sum(abs(last_Q - curr_Q))
-                        print('eavluation:',i_step, curr_loss, learning_rate.eval(), Q_diff)
+                        print('eavluation: step:{0} , loss : {1}, lr:{2}, Q distance:{3}'.format(i_step, curr_loss, learning_rate.eval(), Q_diff))
                         last_Q = curr_Q
                 
                 print('Success')
-                saver.save(sess,'./saved/myModel')
-                print('Successfully saved the model')
-                return Q.eval()
+                self.Qs = Q.eval() 
+                    
+                #saver.save(sess,'./saved/myModel_test')
+                #print('Successfully saved the model')
+               
 
     # 存储 + / - value
     def binarize(self):
@@ -294,9 +383,7 @@ class Batch_Gen:
             #print('pairs', pairs)
             word1 = pairs.iloc[i][0]
             word2 = pairs.iloc[i][1]
-            #print(self.caller.seed_lexicon.index)
-            #word1 = self.caller.seed_lexicon.index[pairs.iloc[i][0]]
-            #word2 = self.caller.seed_lexicon.index[pairs.iloc[i][1]]
+            
             # ew - ev (欧几里得距离)
             batch[i] = self.caller.vec(word1) - self.caller.vec(word2)
         return batch
@@ -310,7 +397,8 @@ if __name__ == "__main__":
     #print(Densifier.binarize(labels))
 
     densifier = Densifier(embeddings=emb)
-    densifier.crossvalidate(labels=labels, k_folds=2)
+    densifier.train_lexicon(labels)
+    #densifier.crossvalidate(labels=labels, k_folds=2)
 
 
 
