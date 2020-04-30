@@ -24,6 +24,7 @@ class Densifier:
         self.P = np.zeros(shape=[self.d, 1])  # index matrix 
         self.P[0, 0] = 1 # 文章认为, transfer matrix Q 的第一个, 代表词的情感倾向
         self.seed_lexicon = None
+        self.induced_lexicon = None
 
         # self.Qs = {} # 将情感倾向映射为 matrix 并存储在 Qs中
     
@@ -35,8 +36,8 @@ class Densifier:
         tf.reset_default_graph()
         self.seed_lexicon = seed_lexicon
         # index : vec word, columns = [sentiment]
-        # self.induced_lexicon = pd.DataFrame(columns=self.seed_lexicon.columns,
-                                            # index=self.embeddings.iw)
+        self.induced_lexicon = pd.DataFrame(columns=self.seed_lexicon.columns,
+                                            index=self.embeddings.iw)
 
         # 二值化 pos/neg
         binarized_lexicon = self.binarize()
@@ -55,10 +56,10 @@ class Densifier:
                                     alpha=alpha,
                                     training_steps=3000) #3000
 
-        # P*Q* m     m [batch_sz, dim]     Q [dim, dim]    P [dim, 1] 
+        # P*Q* m     m [vocab_size, dim]     Q [dim, dim]    P [dim, 1] 
         # induced_lexicon['sentiment']  s[batch_size, 1]
 
-        self.induced_lexicon = self.embeddings.m.dot(self.Qs).dot(self.P)
+        self.induced_lexicon['sentiment'] = self.embeddings.m.dot(self.Qs).dot(self.P)
     
     def predict(self, words):
 
@@ -68,9 +69,11 @@ class Densifier:
         # preds dataframe 行size = vocab size , 列 = V A D
         preds = self.induced_lexicon.loc[words]        
 
+        means = self.induced_lexicon.means(axis=0)
+
         for word in words:
             if not word in self.induced_lexicon.index:
-                preds.loc[word] = 'invalid'
+                preds.loc[word] = means
 
         ### 删除pandas dataframe中index重复的行
         #   参数keep表示保留第一次出现的重复值
@@ -80,8 +83,8 @@ class Densifier:
         print(preds)
         
         ### rescalling pred size
-        # preds = scale_prediction_to_seed(preds=preds,
-                                        #  seed_lexicon=self.seed_lexicon)
+        preds = scale_prediction_to_seed(preds=preds,
+                                         seed_lexicon=self.seed_lexicon)
         return preds
 
 
@@ -115,8 +118,8 @@ class Densifier:
             print('训练次数', i) # 打印训练次数
             self.fit(train) # train 为[927, 3] 的df
             
-            #返回结果, 交叉验证
-            # x = self.eval_densifier(test)
+            #交叉验证
+            x = self.eval_densifier(test)
             # result_df = result_df.append({'Valence':x[0], 'Arousal':x[1], 'Dominance':x[2]}, ignore_index=True)
             #result_df.loc[k] = x
         # result_df = average_results_df(result_df)
@@ -125,7 +128,6 @@ class Densifier:
 
 
 
-x
 
     def vec(self, word):
         return self.embeddings.represent(word)
@@ -257,8 +259,8 @@ x
                         last_Q = curr_Q
                 
                 print('Success')
-                saver.save(sess,'./saved/myModel')
-                print('Successfully saved the model')
+                # saver.save(sess,'./saved/myModel')
+                # print('Successfully saved the model')
                 return Q.eval()
 
     # 存储 + / - value
