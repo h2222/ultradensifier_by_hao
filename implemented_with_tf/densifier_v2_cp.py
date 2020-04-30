@@ -14,7 +14,7 @@ from Utils import (evall, average_results_df, Embedding, load_cnseed, scale_pred
 
 
 os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "3"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 class Densifier:
     
@@ -25,14 +25,13 @@ class Densifier:
         self.P[0, 0] = 1 # 文章认为, transfer matrix Q 的第一个, 代表词的情感倾向
         self.seed_lexicon = None
         self.induced_lexicon = None
-
-        # self.Qs = {} # 将情感倾向映射为 matrix 并存储在 Qs中
+        self.Qs = None # 将情感倾向映射为 matrix 并存储在 Qs中
     
 
 
     def  train_lexicon(self, labels, save_path):
         self.fit(labels)
-        self.induced_lexicon.to_csv(save_path, index=False, encoding='utf-8')
+        self.induced_lexicon.to_csv(save_path, index=True, encoding='utf_8_sig')
     
 
     def fit(self,
@@ -57,14 +56,14 @@ class Densifier:
         # training per word
         self.train_Q(pos=binarized_lexicon['sentiment']['pos'],
                                     neg=binarized_lexicon['sentiment']['neg'],
-                                    batch_size=100, #100
+                                    batch_size=30, #100
                                     optimizer='sgd',
-                                    orthogonalize=False,
+                                    orthogonalize=True,
                                     alpha=alpha,
-                                    training_steps=30000) #3000 x 100
+                                    training_steps=3000) #3000 x 100
 
         self.induced_lexicon['sentiment'] = self.embeddings.m.dot(self.Qs).dot(self.P)
-        self.induced_lexicon.to_csv('./step/step_save'+str(i_step)+'.csv', index=True, encoding='utf-8')
+        # self.induced_lexicon.to_csv('./step/step_save'+str(i_step)+'.csv', index=True, encoding='utf-8')
         # P*Q* m     m [vocab_size, dim]     Q [dim, dim]    P [dim, 1] 
         # induced_lexicon['sentiment']  s[batch_size, 1]
 
@@ -102,6 +101,7 @@ class Densifier:
 
             alpha = tf.constant(alpha, dtype=tf.float32)
             # 两两组合pos/neg word
+            print('beginning to work on sperated pairs...')
             pairs_spearate = list(itertools.product(pos, neg))
             print('len data separate:', len(pairs_spearate))
 
@@ -155,18 +155,16 @@ class Densifier:
                 learning_rate = tf.train.exponential_decay(
                     learning_rate=starter_learning_rate,
                     global_step=global_step,
-                    decay_steps=1,
+                    decay_steps=50,
                     decay_rate=.99,
                     staircase=True
                 )
-                learning_step = (tf.train.GradientDescentOptimizer(learning_rate).
-                minimize(loss, global_step=global_step))
+                learning_step = (tf.train.GradientDescentOptimizer(learning_rate).minimize(loss, global_step=global_step))
             
             ## ADAM 优化器
             elif optimizer =='adam':
                 learning_rate = tf.constant(1e-3)
-                learning_step = (tf.train.AdamOptimizer(learning_rate).
-                minimize(loss))
+                learning_step = (tf.train.AdamOptimizer(learning_rate).minimize(loss))
             else:
                 raise NotImplementedError
 
@@ -260,19 +258,30 @@ class Batch_Gen:
 
 
 if __name__ == "__main__":
-    emb = Embedding.from_fasttext_vec(path='./Utils/????.vec')
-    labels = load_cnseed(path='./cn_seed.csv')
+    
+    # seed words
+    labels = load_cnseed(path='./Utils/source/cn_seed.csv')
+    
+    # embedding
+    embs = []
+    p, _, vecfs = next(os.walk('./Utils/source/vec'))
+    #print(p)
+    #print(vecfs[])
 
+    # LOAD EMBEDDING
+    for f in vecfs:
+        p_f = p+'/'+f
+        print(p_f)    
+        emb = Embedding.from_fasttext_vec(path=p_f)
+        print(f[:3])
+        embs.append((emb, f[:3]))
 
-    densifier = Densifier(embeddings=emb)
-    densifier.train_lexicon(labels, save_path='./output/lexicon.txt')
-
-
-
-
-
-
-
+    # TRAIN
+    for emb, name in embs :
+        densifier = Densifier(embeddings=emb)
+        densifier.train_lexicon(labels, save_path='./output/'+name+'_lexicon.csv')
+        print('successful create '+str(name)+' lexicon.')
+        del densifier
 
 
 
