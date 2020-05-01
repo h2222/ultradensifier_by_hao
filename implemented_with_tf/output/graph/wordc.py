@@ -29,8 +29,7 @@ def origin_vec(path):
 # ultra dense
 path = '../雷军评_lexicon.csv'
 df = pd.read_csv(path, encoding='utf-8')
-st = df['sentiment'][::30]
-
+st = df['sentiment'][::50]
 x = list(st)
 y = [1 for i in range(len(st))]
 n = list(df['word'].loc[st.index])
@@ -39,24 +38,24 @@ n = list(df['word'].loc[st.index])
 # origin space
 # md = origin_vec('./雷军评.vec')
 # print(md)
-# x = list(md.values())[::30]
+# x = list(md.values())[::50]
 # y = [1 for i in range(len(x))]
-# n = list(md.keys())[::30]
+# n = list(md.keys())[::50]
 
 
 print(n)
 print(x)
 
 
-# x=[2.3,4.5,3,7,6.5,4,5.3]
-# y=[1 for i in range(len())]
-# n=np.arange(7)
  
 fig,ax=plt.subplots()
 ax.scatter(x,y,c='r')
- 
 for i,txt in enumerate(n):
      ax.annotate(txt,(x[i],y[i]))
+
+
+
+
 
 
 plt.show()
