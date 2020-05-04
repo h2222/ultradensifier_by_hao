@@ -14,7 +14,7 @@ from Utils import (evall, average_results_df, Embedding, load_cnseed, scale_pred
 
 
 os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "3"
 
 class Densifier:
     
@@ -56,7 +56,7 @@ class Densifier:
         # training per word
         self.train_Q(pos=binarized_lexicon['sentiment']['pos'],
                                     neg=binarized_lexicon['sentiment']['neg'],
-                                    batch_size=30, #100
+                                    batch_size=100, #100
                                     optimizer='sgd',
                                     orthogonalize=True,
                                     alpha=alpha,
@@ -155,7 +155,7 @@ class Densifier:
                 learning_rate = tf.train.exponential_decay(
                     learning_rate=starter_learning_rate,
                     global_step=global_step,
-                    decay_steps=50,
+                    decay_steps=10,
                     decay_rate=.99,
                     staircase=True
                 )
@@ -260,13 +260,14 @@ class Batch_Gen:
 if __name__ == "__main__":
     
     # seed words
-    labels = load_cnseed(path='./Utils/source/cn_seed.csv')
+    labels = load_cnseed(path='./Utils/source/cn_seed_v2.csv')
     
     # embedding
     embs = []
     p, _, vecfs = next(os.walk('./Utils/source/vec'))
     #print(p)
     #print(vecfs[])
+
 
     # LOAD EMBEDDING
     for f in vecfs:
@@ -276,7 +277,7 @@ if __name__ == "__main__":
         print(f[:3])
         embs.append((emb, f[:3]))
 
-    # TRAIN
+    ## TRAIN
     for emb, name in embs :
         densifier = Densifier(embeddings=emb)
         densifier.train_lexicon(labels, save_path='./output/'+name+'_lexicon.csv')

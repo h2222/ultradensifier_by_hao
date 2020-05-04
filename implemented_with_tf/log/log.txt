@@ -1,352 +1,215 @@
 /home/jiaxiang.hao/anaconda3/lib/python3.6/site-packages/h5py/__init__.py:34: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
   from ._conv import register_converters as _register_converters
-WARNING:tensorflow:From densifier_v2_cp.py:34: The name tf.reset_default_graph is deprecated. Please use tf.compat.v1.reset_default_graph instead.
+WARNING:tensorflow:From densifier_v2_cp.py:42: The name tf.reset_default_graph is deprecated. Please use tf.compat.v1.reset_default_graph instead.
 
-WARNING:tensorflow:From densifier_v2_cp.py:257: The name tf.random_normal is deprecated. Please use tf.random.normal instead.
+WARNING:tensorflow:From densifier_v2_cp.py:125: The name tf.random_normal is deprecated. Please use tf.random.normal instead.
 
-WARNING:tensorflow:From densifier_v2_cp.py:261: The name tf.placeholder is deprecated. Please use tf.compat.v1.placeholder instead.
+WARNING:tensorflow:From densifier_v2_cp.py:129: The name tf.placeholder is deprecated. Please use tf.compat.v1.placeholder instead.
 
-WARNING:tensorflow:From densifier_v2_cp.py:287: The name tf.train.exponential_decay is deprecated. Please use tf.compat.v1.train.exponential_decay instead.
+WARNING:tensorflow:From densifier_v2_cp.py:155: The name tf.train.exponential_decay is deprecated. Please use tf.compat.v1.train.exponential_decay instead.
 
-WARNING:tensorflow:From densifier_v2_cp.py:294: The name tf.train.GradientDescentOptimizer is deprecated. Please use tf.compat.v1.train.GradientDescentOptimizer instead.
+WARNING:tensorflow:From densifier_v2_cp.py:162: The name tf.train.GradientDescentOptimizer is deprecated. Please use tf.compat.v1.train.GradientDescentOptimizer instead.
 
-WARNING:tensorflow:From densifier_v2_cp.py:308: The name tf.Session is deprecated. Please use tf.compat.v1.Session instead.
+WARNING:tensorflow:From densifier_v2_cp.py:174: The name tf.Session is deprecated. Please use tf.compat.v1.Session instead.
 
-2020-04-27 15:26:56.513315: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcuda.so.1
-2020-04-27 15:26:56.546076: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1640] Found device 0 with properties: 
+2020-05-01 11:29:47.043517: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcuda.so.1
+2020-05-01 11:29:47.081846: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1640] Found device 0 with properties: 
 name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.545
 pciBusID: 0000:84:00.0
-2020-04-27 15:26:56.546312: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Could not dlopen library 'libcudart.so.10.0'; dlerror: libcudart.so.10.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda/lib64:
-2020-04-27 15:26:56.546473: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Could not dlopen library 'libcublas.so.10.0'; dlerror: libcublas.so.10.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda/lib64:
-2020-04-27 15:26:56.546626: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Could not dlopen library 'libcufft.so.10.0'; dlerror: libcufft.so.10.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda/lib64:
-2020-04-27 15:26:56.546770: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Could not dlopen library 'libcurand.so.10.0'; dlerror: libcurand.so.10.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda/lib64:
-2020-04-27 15:26:56.546911: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Could not dlopen library 'libcusolver.so.10.0'; dlerror: libcusolver.so.10.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda/lib64:
-2020-04-27 15:26:56.547051: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Could not dlopen library 'libcusparse.so.10.0'; dlerror: libcusparse.so.10.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda/lib64:
-2020-04-27 15:26:56.555219: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcudnn.so.7
-2020-04-27 15:26:56.555260: W tensorflow/core/common_runtime/gpu/gpu_device.cc:1663] Cannot dlopen some GPU libraries. Skipping registering GPU devices...
-2020-04-27 15:26:56.555954: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
-2020-04-27 15:26:56.724195: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x55e039c43de0 executing computations on platform CUDA. Devices:
-2020-04-27 15:26:56.724278: I tensorflow/compiler/xla/service/service.cc:175]   StreamExecutor device (0): GeForce RTX 2080 Ti, Compute Capability 7.5
-2020-04-27 15:26:56.729519: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2197365000 Hz
-2020-04-27 15:26:56.734480: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x55e039d80390 executing computations on platform Host. Devices:
-2020-04-27 15:26:56.734545: I tensorflow/compiler/xla/service/service.cc:175]   StreamExecutor device (0): <undefined>, <undefined>
-2020-04-27 15:26:56.734725: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1181] Device interconnect StreamExecutor with strength 1 edge matrix:
-2020-04-27 15:26:56.734773: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1187]      
-WARNING:tensorflow:From densifier_v2_cp.py:309: The name tf.global_variables_initializer is deprecated. Please use tf.compat.v1.global_variables_initializer instead.
+2020-05-01 11:29:47.082132: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Could not dlopen library 'libcudart.so.10.0'; dlerror: libcudart.so.10.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda/lib64:
+2020-05-01 11:29:47.082307: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Could not dlopen library 'libcublas.so.10.0'; dlerror: libcublas.so.10.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda/lib64:
+2020-05-01 11:29:47.082442: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Could not dlopen library 'libcufft.so.10.0'; dlerror: libcufft.so.10.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda/lib64:
+2020-05-01 11:29:47.082572: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Could not dlopen library 'libcurand.so.10.0'; dlerror: libcurand.so.10.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda/lib64:
+2020-05-01 11:29:47.082714: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Could not dlopen library 'libcusolver.so.10.0'; dlerror: libcusolver.so.10.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda/lib64:
+2020-05-01 11:29:47.082869: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Could not dlopen library 'libcusparse.so.10.0'; dlerror: libcusparse.so.10.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda/lib64:
+2020-05-01 11:29:47.089594: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcudnn.so.7
+2020-05-01 11:29:47.089638: W tensorflow/core/common_runtime/gpu/gpu_device.cc:1663] Cannot dlopen some GPU libraries. Skipping registering GPU devices...
+2020-05-01 11:29:47.090602: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2020-05-01 11:29:47.272131: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x5566b227a920 executing computations on platform CUDA. Devices:
+2020-05-01 11:29:47.272214: I tensorflow/compiler/xla/service/service.cc:175]   StreamExecutor device (0): GeForce RTX 2080 Ti, Compute Capability 7.5
+2020-05-01 11:29:47.277044: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2197365000 Hz
+2020-05-01 11:29:47.281847: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x5566b23b6ed0 executing computations on platform Host. Devices:
+2020-05-01 11:29:47.281925: I tensorflow/compiler/xla/service/service.cc:175]   StreamExecutor device (0): <undefined>, <undefined>
+2020-05-01 11:29:47.282053: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1181] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-05-01 11:29:47.282077: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1187]      
+WARNING:tensorflow:From densifier_v2_cp.py:175: The name tf.global_variables_initializer is deprecated. Please use tf.compat.v1.global_variables_initializer instead.
 
-2020-04-27 15:26:56.761134: W tensorflow/compiler/jit/mark_for_compilation_pass.cc:1412] (One-time warning): Not using XLA:CPU for cluster because envvar TF_XLA_FLAGS=--tf_xla_cpu_global_jit was not set.  If you want XLA:CPU, either set that envvar, or use experimental_jit_scope to enable XLA:CPU.  To confirm that XLA is active, pass --vmodule=xla_compilation_cache=1 (as a proper command-line flag, not via TF_XLA_FLAGS) or set the envvar XLA_FLAGS=--xla_hlo_profile.
-WARNING:tensorflow:From densifier_v2_cp.py:313: The name tf.train.Saver is deprecated. Please use tf.compat.v1.train.Saver instead.
+2020-05-01 11:29:47.309067: W tensorflow/compiler/jit/mark_for_compilation_pass.cc:1412] (One-time warning): Not using XLA:CPU for cluster because envvar TF_XLA_FLAGS=--tf_xla_cpu_global_jit was not set.  If you want XLA:CPU, either set that envvar, or use experimental_jit_scope to enable XLA:CPU.  To confirm that XLA is active, pass --vmodule=xla_compilation_cache=1 (as a proper command-line flag, not via TF_XLA_FLAGS) or set the envvar XLA_FLAGS=--xla_hlo_profile.
+WARNING:tensorflow:From densifier_v2_cp.py:179: The name tf.train.Saver is deprecated. Please use tf.compat.v1.train.Saver instead.
 
+./Utils/source/vec/total.vec
+tot
 ====================================================================================================
-len data separate: 19560960
+beginning to work on sperated pairs...
+len data separate: 2704
 beginning to work on aligned pairs...
-Lenght of pairs_align: 19578168
-eavluation: step:0 , loss : -46.63346481323242, lr:4.949999809265137, Q distance:1180.633056640625
-eavluation: step:100 , loss : -15438.591796875, lr:1.8118619918823242, Q distance:33238.0546875
-eavluation: step:200 , loss : 3723.56787109375, lr:0.6632006764411926, Q distance:12685.517578125
-eavluation: step:300 , loss : -19873.830078125, lr:0.24275316298007965, Q distance:4401.1357421875
-eavluation: step:400 , loss : -44105.77734375, lr:0.08885559439659119, Q distance:1732.7857666015625
-eavluation: step:500 , loss : -40228.3671875, lr:0.03252405300736427, Q distance:583.418212890625
-eavluation: step:600 , loss : -22186.6953125, lr:0.011904867365956306, Q distance:235.89500427246094
-eavluation: step:700 , loss : -32880.1015625, lr:0.00435757078230381, Q distance:82.99605560302734
-eavluation: step:800 , loss : -13745.4638671875, lr:0.0015950134256854653, Q distance:27.577899932861328
-eavluation: step:900 , loss : -8120.90380859375, lr:0.0005838270299136639, Q distance:10.47525405883789
-eavluation: step:1000 , loss : -44915.125, lr:0.00021369980822782964, Q distance:3.262833595275879
-eavluation: step:1100 , loss : -52978.0625, lr:7.822112092981115e-05, Q distance:1.3548146486282349
-eavluation: step:1200 , loss : 497.50244140625, lr:2.8631486202357337e-05, Q distance:0.5349897146224976
-eavluation: step:1300 , loss : -383.52099609375, lr:1.0480061064299662e-05, Q distance:0.16849958896636963
-eavluation: step:1400 , loss : -53139.56640625, lr:3.836044925265014e-06, Q distance:0.03397965431213379
-eavluation: step:1500 , loss : -35941.796875, lr:1.4041179383639246e-06, Q distance:0.0013085603713989258
-eavluation: step:1600 , loss : 3138.90673828125, lr:5.139530685482896e-07, Q distance:0.00010609626770019531
-eavluation: step:1700 , loss : -25056.62109375, lr:1.881236357803573e-07, Q distance:4.172325134277344e-06
-eavluation: step:1800 , loss : -26486.32421875, lr:6.885939995981971e-08, Q distance:1.1920928955078125e-06
-eavluation: step:1900 , loss : -57027.99609375, lr:2.520479469581005e-08, Q distance:0.0
-eavluation: step:2000 , loss : -35571.34375, lr:9.22577925166479e-09, Q distance:0.0
-eavluation: step:2100 , loss : -39650.5390625, lr:3.3769367302483033e-09, Q distance:0.0
-eavluation: step:2200 , loss : -7132.0341796875, lr:1.2360692469570722e-09, Q distance:0.0
-eavluation: step:2300 , loss : -63833.546875, lr:4.524418062423763e-10, Q distance:0.0
-eavluation: step:2400 , loss : -39385.453125, lr:1.6560849913638265e-10, Q distance:0.0
-eavluation: step:2500 , loss : -28049.20703125, lr:6.061812163338232e-11, Q distance:0.0
-eavluation: step:2600 , loss : -62360.16796875, lr:2.2188216541874084e-11, Q distance:0.0
-eavluation: step:2700 , loss : -4270.080078125, lr:8.121612757316932e-12, Q distance:0.0
-eavluation: step:2800 , loss : -18387.763671875, lr:2.9727761051423496e-12, Q distance:0.0
-eavluation: step:2900 , loss : -18474.818359375, lr:1.0881332727225024e-12, Q distance:0.0
-eavluation: step:3000 , loss : -24549.78515625, lr:3.9829234745394904e-13, Q distance:0.0
-eavluation: step:3100 , loss : -35191.9921875, lr:1.457880311698384e-13, Q distance:0.0
-eavluation: step:3200 , loss : -38513.03515625, lr:5.336318409723817e-14, Q distance:0.0
-eavluation: step:3300 , loss : -58955.68359375, lr:1.953267124324247e-14, Q distance:0.0
-eavluation: step:3400 , loss : -857.625, lr:7.149596737668525e-15, Q distance:0.0
-eavluation: step:3500 , loss : -25821.888671875, lr:2.6169862175733083e-15, Q distance:0.0
-eavluation: step:3600 , loss : -10007.169921875, lr:9.579025720280734e-16, Q distance:0.0
-eavluation: step:3700 , loss : -23307.59375, lr:3.5062367692264207e-16, Q distance:0.0
-eavluation: step:3800 , loss : -89517.8359375, lr:1.2833973225045221e-16, Q distance:0.0
-eavluation: step:3900 , loss : -30881.9140625, lr:4.69765398989521e-17, Q distance:0.0
-eavluation: step:4000 , loss : -56945.109375, lr:1.7194949154635833e-17, Q distance:0.0
-eavluation: step:4100 , loss : -55631.1015625, lr:6.2939138833394184e-18, Q distance:0.0
-eavluation: step:4200 , loss : 29298.490234375, lr:2.3037782424795997e-18, Q distance:0.0
-eavluation: step:4300 , loss : -17661.205078125, lr:8.432581602277029e-19, Q distance:0.0
-eavluation: step:4400 , loss : -17606.451171875, lr:3.0866009327929533e-19, Q distance:0.0
-eavluation: step:4500 , loss : -26947.173828125, lr:1.1297967555903395e-19, Q distance:0.0
-eavluation: step:4600 , loss : -49428.02734375, lr:4.135426141443213e-20, Q distance:0.0
-eavluation: step:4700 , loss : -32401.236328125, lr:1.5137011006459737e-20, Q distance:0.0
-eavluation: step:4800 , loss : -34211.37109375, lr:5.54064072760701e-21, Q distance:0.0
-eavluation: step:4900 , loss : -13720.4296875, lr:2.028055818801441e-21, Q distance:0.0
-eavluation: step:5000 , loss : -468.5576171875, lr:7.423347725552904e-22, Q distance:0.0
-eavluation: step:5100 , loss : -13414.2294921875, lr:2.7171880953472966e-22, Q distance:0.0
-eavluation: step:5200 , loss : -40440.58984375, lr:9.945797365401852e-23, Q distance:0.0
-eavluation: step:5300 , loss : -33731.55078125, lr:3.640487054689308e-23, Q distance:0.0
-eavluation: step:5400 , loss : -22149.263671875, lr:1.3325373724399103e-23, Q distance:0.0
-eavluation: step:5500 , loss : -41733.65625, lr:4.877522638246537e-24, Q distance:0.0
-eavluation: step:5600 , loss : -36080.7421875, lr:1.785332645756279e-24, Q distance:0.0
-eavluation: step:5700 , loss : -27305.314453125, lr:6.534901552137902e-25, Q distance:0.0
-eavluation: step:5800 , loss : -35353.73046875, lr:2.391987734596645e-25, Q distance:0.0
-eavluation: step:5900 , loss : -27096.83203125, lr:8.755457486078378e-26, Q distance:0.0
-eavluation: step:6000 , loss : -12755.826171875, lr:3.2047837890177105e-26, Q distance:0.0
-eavluation: step:6100 , loss : -52830.328125, lr:1.173055579437484e-26, Q distance:0.0
-eavluation: step:6200 , loss : -18623.19921875, lr:4.293767596002034e-27, Q distance:0.0
-eavluation: step:6300 , loss : 26306.013671875, lr:1.5716593681630815e-27, Q distance:0.0
-eavluation: step:6400 , loss : -54599.90625, lr:5.752786929141186e-28, Q distance:0.0
-eavluation: step:6500 , loss : -15142.892578125, lr:2.105708282458493e-28, Q distance:0.0
-eavluation: step:6600 , loss : -45410.05078125, lr:7.707580665234332e-29, Q distance:0.0
-eavluation: step:6700 , loss : 1927.9248046875, lr:2.8212267661317006e-29, Q distance:0.0
-eavluation: step:6800 , loss : -6297.00732421875, lr:1.032661217152177e-29, Q distance:0.0
-eavluation: step:6900 , loss : -104402.6171875, lr:3.7798778809448065e-30, Q distance:0.0
-eavluation: step:7000 , loss : -32060.583984375, lr:1.3835589197878898e-30, Q distance:0.0
-eavluation: step:7100 , loss : -56493.04296875, lr:5.064278397947049e-31, Q distance:0.0
-eavluation: step:7200 , loss : -61022.2109375, lr:1.8536913496506732e-31, Q distance:0.0
-eavluation: step:7300 , loss : -29340.9140625, lr:6.785116786661008e-32, Q distance:0.0
-eavluation: step:7400 , loss : -42929.65234375, lr:2.483574766588935e-32, Q distance:0.0
-eavluation: step:7500 , loss : -16015.9765625, lr:9.09069584765973e-33, Q distance:0.0
-eavluation: step:7600 , loss : -51350.73828125, lr:3.3274916953398194e-33, Q distance:0.0
-eavluation: step:7700 , loss : 2087.859375, lr:1.2179708391892509e-33, Q distance:0.0
-eavluation: step:7800 , loss : 2122.259765625, lr:4.458171609733953e-34, Q distance:0.0
-eavluation: step:7900 , loss : -43581.34765625, lr:1.631836640257106e-34, Q distance:0.0
-eavluation: step:8000 , loss : -53551.328125, lr:5.973055860428228e-35, Q distance:0.0
-eavluation: step:8100 , loss : -73099.7265625, lr:2.1863336837377321e-35, Q distance:0.0
-eavluation: step:8200 , loss : -27188.0859375, lr:8.002696520283052e-36, Q distance:0.0
-eavluation: step:8300 , loss : 491.668701171875, lr:2.92924883982371e-36, Q distance:0.0
-eavluation: step:8400 , loss : -70798.6796875, lr:1.0722008519058577e-36, Q distance:0.0
-eavluation: step:8500 , loss : -49056.546875, lr:3.924605622854555e-37, Q distance:0.0
-eavluation: step:8600 , loss : -32080.705078125, lr:1.436534058158326e-37, Q distance:0.0
-eavluation: step:8700 , loss : -5124.47216796875, lr:0.0, Q distance:0.0
-eavluation: step:8800 , loss : -60341.77734375, lr:0.0, Q distance:0.0
-eavluation: step:8900 , loss : -17960.724609375, lr:0.0, Q distance:0.0
-eavluation: step:9000 , loss : -19522.693359375, lr:0.0, Q distance:0.0
-eavluation: step:9100 , loss : -31784.669921875, lr:0.0, Q distance:0.0
-eavluation: step:9200 , loss : -3282.345703125, lr:0.0, Q distance:0.0
-eavluation: step:9300 , loss : -55249.890625, lr:0.0, Q distance:0.0
-eavluation: step:9400 , loss : -23118.93359375, lr:0.0, Q distance:0.0
-eavluation: step:9500 , loss : -86082.03125, lr:0.0, Q distance:0.0
-eavluation: step:9600 , loss : -32200.46875, lr:0.0, Q distance:0.0
-eavluation: step:9700 , loss : -59416.71484375, lr:0.0, Q distance:0.0
-eavluation: step:9800 , loss : -48030.48046875, lr:0.0, Q distance:0.0
-eavluation: step:9900 , loss : -39862.55859375, lr:0.0, Q distance:0.0
-eavluation: step:10000 , loss : -62581.51171875, lr:0.0, Q distance:0.0
-eavluation: step:10100 , loss : 706.3046875, lr:0.0, Q distance:0.0
-eavluation: step:10200 , loss : 5144.2548828125, lr:0.0, Q distance:0.0
-eavluation: step:10300 , loss : -17648.52734375, lr:0.0, Q distance:0.0
-eavluation: step:10400 , loss : -22047.6171875, lr:0.0, Q distance:0.0
-eavluation: step:10500 , loss : -35572.7890625, lr:0.0, Q distance:0.0
-eavluation: step:10600 , loss : -57322.76953125, lr:0.0, Q distance:0.0
-eavluation: step:10700 , loss : -11828.9326171875, lr:0.0, Q distance:0.0
-eavluation: step:10800 , loss : -75669.3125, lr:0.0, Q distance:0.0
-eavluation: step:10900 , loss : 7700.9765625, lr:0.0, Q distance:0.0
-eavluation: step:11000 , loss : -21821.556640625, lr:0.0, Q distance:0.0
-eavluation: step:11100 , loss : -42015.83984375, lr:0.0, Q distance:0.0
-eavluation: step:11200 , loss : 13737.107421875, lr:0.0, Q distance:0.0
-eavluation: step:11300 , loss : -67426.8359375, lr:0.0, Q distance:0.0
-eavluation: step:11400 , loss : -39498.25, lr:0.0, Q distance:0.0
-eavluation: step:11500 , loss : -20066.140625, lr:0.0, Q distance:0.0
-eavluation: step:11600 , loss : -60669.4375, lr:0.0, Q distance:0.0
-eavluation: step:11700 , loss : 2816.3896484375, lr:0.0, Q distance:0.0
-eavluation: step:11800 , loss : -51767.78125, lr:0.0, Q distance:0.0
-eavluation: step:11900 , loss : -38227.73828125, lr:0.0, Q distance:0.0
-eavluation: step:12000 , loss : -4653.53369140625, lr:0.0, Q distance:0.0
-eavluation: step:12100 , loss : -34407.1953125, lr:0.0, Q distance:0.0
-eavluation: step:12200 , loss : -17294.24609375, lr:0.0, Q distance:0.0
-eavluation: step:12300 , loss : -23438.009765625, lr:0.0, Q distance:0.0
-eavluation: step:12400 , loss : -17580.61328125, lr:0.0, Q distance:0.0
-eavluation: step:12500 , loss : -39541.69140625, lr:0.0, Q distance:0.0
-eavluation: step:12600 , loss : -50186.06640625, lr:0.0, Q distance:0.0
-eavluation: step:12700 , loss : -34327.11328125, lr:0.0, Q distance:0.0
-eavluation: step:12800 , loss : -50960.828125, lr:0.0, Q distance:0.0
-eavluation: step:12900 , loss : -34277.06640625, lr:0.0, Q distance:0.0
-eavluation: step:13000 , loss : -51647.70703125, lr:0.0, Q distance:0.0
-eavluation: step:13100 , loss : -16355.939453125, lr:0.0, Q distance:0.0
-eavluation: step:13200 , loss : -14387.640625, lr:0.0, Q distance:0.0
-eavluation: step:13300 , loss : -24798.529296875, lr:0.0, Q distance:0.0
-eavluation: step:13400 , loss : -48934.71484375, lr:0.0, Q distance:0.0
-eavluation: step:13500 , loss : -6425.2177734375, lr:0.0, Q distance:0.0
-eavluation: step:13600 , loss : -96387.859375, lr:0.0, Q distance:0.0
-eavluation: step:13700 , loss : -24459.99609375, lr:0.0, Q distance:0.0
-eavluation: step:13800 , loss : -45577.13671875, lr:0.0, Q distance:0.0
-eavluation: step:13900 , loss : -40836.8828125, lr:0.0, Q distance:0.0
-eavluation: step:14000 , loss : -33079.734375, lr:0.0, Q distance:0.0
-eavluation: step:14100 , loss : -55794.171875, lr:0.0, Q distance:0.0
-eavluation: step:14200 , loss : 5160.466796875, lr:0.0, Q distance:0.0
-eavluation: step:14300 , loss : -65610.40625, lr:0.0, Q distance:0.0
-eavluation: step:14400 , loss : -55109.7890625, lr:0.0, Q distance:0.0
-eavluation: step:14500 , loss : -19365.76171875, lr:0.0, Q distance:0.0
-eavluation: step:14600 , loss : -52183.59375, lr:0.0, Q distance:0.0
-eavluation: step:14700 , loss : -69191.7421875, lr:0.0, Q distance:0.0
-eavluation: step:14800 , loss : -31105.818359375, lr:0.0, Q distance:0.0
-eavluation: step:14900 , loss : -28729.53125, lr:0.0, Q distance:0.0
-eavluation: step:15000 , loss : -28735.173828125, lr:0.0, Q distance:0.0
-eavluation: step:15100 , loss : 605.07861328125, lr:0.0, Q distance:0.0
-eavluation: step:15200 , loss : -9344.462890625, lr:0.0, Q distance:0.0
-eavluation: step:15300 , loss : -43075.765625, lr:0.0, Q distance:0.0
-eavluation: step:15400 , loss : -37642.1015625, lr:0.0, Q distance:0.0
-eavluation: step:15500 , loss : -21165.5703125, lr:0.0, Q distance:0.0
-eavluation: step:15600 , loss : -12863.63671875, lr:0.0, Q distance:0.0
-eavluation: step:15700 , loss : -24226.44921875, lr:0.0, Q distance:0.0
-eavluation: step:15800 , loss : 5527.40478515625, lr:0.0, Q distance:0.0
-eavluation: step:15900 , loss : 7197.271484375, lr:0.0, Q distance:0.0
-eavluation: step:16000 , loss : -33995.0390625, lr:0.0, Q distance:0.0
-eavluation: step:16100 , loss : 15551.435546875, lr:0.0, Q distance:0.0
-eavluation: step:16200 , loss : -97198.9296875, lr:0.0, Q distance:0.0
-eavluation: step:16300 , loss : 7526.294921875, lr:0.0, Q distance:0.0
-eavluation: step:16400 , loss : -14839.380859375, lr:0.0, Q distance:0.0
-eavluation: step:16500 , loss : -12091.822265625, lr:0.0, Q distance:0.0
-eavluation: step:16600 , loss : -29679.04296875, lr:0.0, Q distance:0.0
-eavluation: step:16700 , loss : -3183.109375, lr:0.0, Q distance:0.0
-eavluation: step:16800 , loss : -86203.40625, lr:0.0, Q distance:0.0
-eavluation: step:16900 , loss : 7644.224609375, lr:0.0, Q distance:0.0
-eavluation: step:17000 , loss : -24055.5546875, lr:0.0, Q distance:0.0
-eavluation: step:17100 , loss : -86532.265625, lr:0.0, Q distance:0.0
-eavluation: step:17200 , loss : -21609.341796875, lr:0.0, Q distance:0.0
-eavluation: step:17300 , loss : -49014.26953125, lr:0.0, Q distance:0.0
-eavluation: step:17400 , loss : -8514.6923828125, lr:0.0, Q distance:0.0
-eavluation: step:17500 , loss : 2062.754150390625, lr:0.0, Q distance:0.0
-eavluation: step:17600 , loss : -2298.087890625, lr:0.0, Q distance:0.0
-eavluation: step:17700 , loss : -38931.7109375, lr:0.0, Q distance:0.0
-eavluation: step:17800 , loss : -4925.8505859375, lr:0.0, Q distance:0.0
-eavluation: step:17900 , loss : -72207.6328125, lr:0.0, Q distance:0.0
-eavluation: step:18000 , loss : -3448.96728515625, lr:0.0, Q distance:0.0
-eavluation: step:18100 , loss : -43986.31640625, lr:0.0, Q distance:0.0
-eavluation: step:18200 , loss : -68123.703125, lr:0.0, Q distance:0.0
-eavluation: step:18300 , loss : -15832.595703125, lr:0.0, Q distance:0.0
-eavluation: step:18400 , loss : 15116.2646484375, lr:0.0, Q distance:0.0
-eavluation: step:18500 , loss : -18412.46875, lr:0.0, Q distance:0.0
-eavluation: step:18600 , loss : 27347.900390625, lr:0.0, Q distance:0.0
-eavluation: step:18700 , loss : -14209.8681640625, lr:0.0, Q distance:0.0
-eavluation: step:18800 , loss : -6758.6787109375, lr:0.0, Q distance:0.0
-eavluation: step:18900 , loss : -9932.126953125, lr:0.0, Q distance:0.0
-eavluation: step:19000 , loss : -10436.166015625, lr:0.0, Q distance:0.0
-eavluation: step:19100 , loss : 26767.015625, lr:0.0, Q distance:0.0
-eavluation: step:19200 , loss : -34562.546875, lr:0.0, Q distance:0.0
-eavluation: step:19300 , loss : -52996.8984375, lr:0.0, Q distance:0.0
-eavluation: step:19400 , loss : -11334.8203125, lr:0.0, Q distance:0.0
-eavluation: step:19500 , loss : -23107.427734375, lr:0.0, Q distance:0.0
-eavluation: step:19600 , loss : -22402.6640625, lr:0.0, Q distance:0.0
-eavluation: step:19700 , loss : -65417.26171875, lr:0.0, Q distance:0.0
-eavluation: step:19800 , loss : -8719.4375, lr:0.0, Q distance:0.0
-eavluation: step:19900 , loss : -33678.234375, lr:0.0, Q distance:0.0
-eavluation: step:20000 , loss : 26389.546875, lr:0.0, Q distance:0.0
-eavluation: step:20100 , loss : -41935.69140625, lr:0.0, Q distance:0.0
-eavluation: step:20200 , loss : -36767.0546875, lr:0.0, Q distance:0.0
-eavluation: step:20300 , loss : -14158.900390625, lr:0.0, Q distance:0.0
-eavluation: step:20400 , loss : -39732.91015625, lr:0.0, Q distance:0.0
-eavluation: step:20500 , loss : -17979.13671875, lr:0.0, Q distance:0.0
-eavluation: step:20600 , loss : -49308.734375, lr:0.0, Q distance:0.0
-eavluation: step:20700 , loss : -33660.6953125, lr:0.0, Q distance:0.0
-eavluation: step:20800 , loss : -41885.24609375, lr:0.0, Q distance:0.0
-eavluation: step:20900 , loss : 1837.83154296875, lr:0.0, Q distance:0.0
-eavluation: step:21000 , loss : -31105.96875, lr:0.0, Q distance:0.0
-eavluation: step:21100 , loss : -2826.9736328125, lr:0.0, Q distance:0.0
-eavluation: step:21200 , loss : -3674.06640625, lr:0.0, Q distance:0.0
-eavluation: step:21300 , loss : -21376.13671875, lr:0.0, Q distance:0.0
-eavluation: step:21400 , loss : -62485.5703125, lr:0.0, Q distance:0.0
-eavluation: step:21500 , loss : 19068.599609375, lr:0.0, Q distance:0.0
-eavluation: step:21600 , loss : -32023.4296875, lr:0.0, Q distance:0.0
-eavluation: step:21700 , loss : -14250.595703125, lr:0.0, Q distance:0.0
-eavluation: step:21800 , loss : -21536.12109375, lr:0.0, Q distance:0.0
-eavluation: step:21900 , loss : -54880.33984375, lr:0.0, Q distance:0.0
-eavluation: step:22000 , loss : -39871.4375, lr:0.0, Q distance:0.0
-eavluation: step:22100 , loss : -9088.697265625, lr:0.0, Q distance:0.0
-eavluation: step:22200 , loss : -16432.6015625, lr:0.0, Q distance:0.0
-eavluation: step:22300 , loss : -16535.27734375, lr:0.0, Q distance:0.0
-eavluation: step:22400 , loss : -21894.0859375, lr:0.0, Q distance:0.0
-eavluation: step:22500 , loss : -60019.6484375, lr:0.0, Q distance:0.0
-eavluation: step:22600 , loss : -25475.146484375, lr:0.0, Q distance:0.0
-eavluation: step:22700 , loss : -3333.646484375, lr:0.0, Q distance:0.0
-eavluation: step:22800 , loss : -25516.85546875, lr:0.0, Q distance:0.0
-eavluation: step:22900 , loss : -13257.7998046875, lr:0.0, Q distance:0.0
-eavluation: step:23000 , loss : -39538.69140625, lr:0.0, Q distance:0.0
-eavluation: step:23100 , loss : -8278.947265625, lr:0.0, Q distance:0.0
-eavluation: step:23200 , loss : -37952.328125, lr:0.0, Q distance:0.0
-eavluation: step:23300 , loss : -39192.44140625, lr:0.0, Q distance:0.0
-eavluation: step:23400 , loss : -9458.0654296875, lr:0.0, Q distance:0.0
-eavluation: step:23500 , loss : -30493.197265625, lr:0.0, Q distance:0.0
-eavluation: step:23600 , loss : -42541.97265625, lr:0.0, Q distance:0.0
-eavluation: step:23700 , loss : -12741.013671875, lr:0.0, Q distance:0.0
-eavluation: step:23800 , loss : -45894.875, lr:0.0, Q distance:0.0
-eavluation: step:23900 , loss : -44968.1015625, lr:0.0, Q distance:0.0
-eavluation: step:24000 , loss : -59628.66796875, lr:0.0, Q distance:0.0
-eavluation: step:24100 , loss : -16117.4765625, lr:0.0, Q distance:0.0
-eavluation: step:24200 , loss : -49126.859375, lr:0.0, Q distance:0.0
-eavluation: step:24300 , loss : -36958.28515625, lr:0.0, Q distance:0.0
-eavluation: step:24400 , loss : -41123.9765625, lr:0.0, Q distance:0.0
-eavluation: step:24500 , loss : -86706.203125, lr:0.0, Q distance:0.0
-eavluation: step:24600 , loss : -53351.62109375, lr:0.0, Q distance:0.0
-eavluation: step:24700 , loss : -5534.1748046875, lr:0.0, Q distance:0.0
-eavluation: step:24800 , loss : -32826.70703125, lr:0.0, Q distance:0.0
-eavluation: step:24900 , loss : -48597.0625, lr:0.0, Q distance:0.0
-eavluation: step:25000 , loss : -62085.01171875, lr:0.0, Q distance:0.0
-eavluation: step:25100 , loss : -15088.029296875, lr:0.0, Q distance:0.0
-eavluation: step:25200 , loss : -33214.34765625, lr:0.0, Q distance:0.0
-eavluation: step:25300 , loss : -10169.6337890625, lr:0.0, Q distance:0.0
-eavluation: step:25400 , loss : -11538.98828125, lr:0.0, Q distance:0.0
-eavluation: step:25500 , loss : -12346.30859375, lr:0.0, Q distance:0.0
-eavluation: step:25600 , loss : -42943.3515625, lr:0.0, Q distance:0.0
-eavluation: step:25700 , loss : -9340.2568359375, lr:0.0, Q distance:0.0
-eavluation: step:25800 , loss : -53850.5703125, lr:0.0, Q distance:0.0
-eavluation: step:25900 , loss : -24416.623046875, lr:0.0, Q distance:0.0
-eavluation: step:26000 , loss : -51012.30859375, lr:0.0, Q distance:0.0
-eavluation: step:26100 , loss : -9210.5673828125, lr:0.0, Q distance:0.0
-eavluation: step:26200 , loss : 8513.615234375, lr:0.0, Q distance:0.0
-eavluation: step:26300 , loss : -28683.849609375, lr:0.0, Q distance:0.0
-eavluation: step:26400 , loss : -21789.845703125, lr:0.0, Q distance:0.0
-eavluation: step:26500 , loss : -71304.859375, lr:0.0, Q distance:0.0
-eavluation: step:26600 , loss : 8617.11328125, lr:0.0, Q distance:0.0
-eavluation: step:26700 , loss : -39518.0546875, lr:0.0, Q distance:0.0
-eavluation: step:26800 , loss : -42321.03515625, lr:0.0, Q distance:0.0
-eavluation: step:26900 , loss : -50291.8984375, lr:0.0, Q distance:0.0
-eavluation: step:27000 , loss : -63337.58984375, lr:0.0, Q distance:0.0
-eavluation: step:27100 , loss : -17113.13671875, lr:0.0, Q distance:0.0
-eavluation: step:27200 , loss : -46617.59375, lr:0.0, Q distance:0.0
-eavluation: step:27300 , loss : 12915.232421875, lr:0.0, Q distance:0.0
-eavluation: step:27400 , loss : -21542.076171875, lr:0.0, Q distance:0.0
-eavluation: step:27500 , loss : -82575.34375, lr:0.0, Q distance:0.0
-eavluation: step:27600 , loss : -50242.56640625, lr:0.0, Q distance:0.0
-eavluation: step:27700 , loss : 15109.5380859375, lr:0.0, Q distance:0.0
-eavluation: step:27800 , loss : -17440.615234375, lr:0.0, Q distance:0.0
-eavluation: step:27900 , loss : -56613.484375, lr:0.0, Q distance:0.0
-eavluation: step:28000 , loss : -60855.7421875, lr:0.0, Q distance:0.0
-eavluation: step:28100 , loss : -3183.731201171875, lr:0.0, Q distance:0.0
-eavluation: step:28200 , loss : -68773.796875, lr:0.0, Q distance:0.0
-eavluation: step:28300 , loss : -26768.033203125, lr:0.0, Q distance:0.0
-eavluation: step:28400 , loss : -34834.0625, lr:0.0, Q distance:0.0
-eavluation: step:28500 , loss : 9070.720703125, lr:0.0, Q distance:0.0
-eavluation: step:28600 , loss : 20132.359375, lr:0.0, Q distance:0.0
-eavluation: step:28700 , loss : 11426.833984375, lr:0.0, Q distance:0.0
-eavluation: step:28800 , loss : -29277.373046875, lr:0.0, Q distance:0.0
-eavluation: step:28900 , loss : -69647.59375, lr:0.0, Q distance:0.0
-eavluation: step:29000 , loss : -71407.75, lr:0.0, Q distance:0.0
-eavluation: step:29100 , loss : -28070.064453125, lr:0.0, Q distance:0.0
-eavluation: step:29200 , loss : -20005.998046875, lr:0.0, Q distance:0.0
-eavluation: step:29300 , loss : -15934.3515625, lr:0.0, Q distance:0.0
-eavluation: step:29400 , loss : -88137.2734375, lr:0.0, Q distance:0.0
-eavluation: step:29500 , loss : -8479.705078125, lr:0.0, Q distance:0.0
-eavluation: step:29600 , loss : -22386.462890625, lr:0.0, Q distance:0.0
-eavluation: step:29700 , loss : -72441.0078125, lr:0.0, Q distance:0.0
-eavluation: step:29800 , loss : -20177.765625, lr:0.0, Q distance:0.0
-eavluation: step:29900 , loss : -24249.85546875, lr:0.0, Q distance:0.0
+Lenght of pairs_align: 2652
+eavluation: step:0 , loss : 12.068873405456543, lr:5.0, Q distance:85645.9453125
+eavluation: step:100 , loss : -147.4956817626953, lr:4.521910667419434, Q distance:10723.857421875
+eavluation: step:200 , loss : -173.90963745117188, lr:4.089535713195801, Q distance:8865.0673828125
+eavluation: step:300 , loss : -166.39096069335938, lr:3.698503017425537, Q distance:8324.544921875
+eavluation: step:400 , loss : -176.8975067138672, lr:3.344860076904297, Q distance:8592.109375
+eavluation: step:500 , loss : -169.76828002929688, lr:3.025031566619873, Q distance:7938.3310546875
+eavluation: step:600 , loss : -165.2886505126953, lr:2.7357850074768066, Q distance:7596.9052734375
+eavluation: step:700 , loss : -175.50416564941406, lr:2.4741950035095215, Q distance:7132.275390625
+eavluation: step:800 , loss : -176.35675048828125, lr:2.2376177310943604, Q distance:7646.97607421875
+eavluation: step:900 , loss : -158.9703826904297, lr:2.0236616134643555, Q distance:7828.63232421875
+eavluation: step:1000 , loss : -145.03453063964844, lr:1.830163598060608, Q distance:7234.29736328125
+eavluation: step:1100 , loss : -162.600830078125, lr:1.6551673412322998, Q distance:6918.48779296875
+eavluation: step:1200 , loss : -137.8696746826172, lr:1.4969037771224976, Q distance:7441.96728515625
+eavluation: step:1300 , loss : -181.71287536621094, lr:1.3537729978561401, Q distance:7297.3291015625
+eavluation: step:1400 , loss : -178.3748321533203, lr:1.2243281602859497, Q distance:6971.751953125
+eavluation: step:1500 , loss : -173.29139709472656, lr:1.1072605848312378, Q distance:6971.83544921875
+eavluation: step:1600 , loss : -167.4888458251953, lr:1.0013867616653442, Q distance:6557.8818359375
+eavluation: step:1700 , loss : -185.68301391601562, lr:0.9056362509727478, Q distance:6386.7529296875
+eavluation: step:1800 , loss : -167.2314453125, lr:0.8190412521362305, Q distance:6534.65283203125
+eavluation: step:1900 , loss : -147.67591857910156, lr:0.7407263517379761, Q distance:6760.20654296875
+eavluation: step:2000 , loss : -167.45068359375, lr:0.6698997020721436, Q distance:6366.724609375
+eavluation: step:2100 , loss : -150.732421875, lr:0.6058453321456909, Q distance:6265.87451171875
+eavluation: step:2200 , loss : -148.262939453125, lr:0.5479157567024231, Q distance:6384.8896484375
+eavluation: step:2300 , loss : -167.59625244140625, lr:0.4955252408981323, Q distance:6211.8525390625
+eavluation: step:2400 , loss : -161.3275146484375, lr:0.4481441378593445, Q distance:6193.650390625
+eavluation: step:2500 , loss : -153.86279296875, lr:0.4052935838699341, Q distance:6181.5341796875
+eavluation: step:2600 , loss : -145.628662109375, lr:0.3665402829647064, Q distance:6120.69482421875
+eavluation: step:2700 , loss : -179.38275146484375, lr:0.33149248361587524, Q distance:6055.111328125
+eavluation: step:2800 , loss : -189.31761169433594, lr:0.29979589581489563, Q distance:6026.603515625
+eavluation: step:2900 , loss : -164.67208862304688, lr:0.2711300849914551, Q distance:6109.0849609375
 Success
-Traceback (most recent call last):
-  File "densifier_v2_cp.py", line 400, in <module>
-    densifier.train_lexicon(labels)
-  File "densifier_v2_cp.py", line 177, in train_lexicon
-    self.fit(labels)
-  File "densifier_v2_cp.py", line 58, in fit
-    self.induced_lexicon.to_csv('./step/step_save'+str(i_step)+'.csv', index=True, encoding='utf-8')
-NameError: name 'i_step' is not defined
+最大值最小值词      sentiment
+手机  -81.239655
+钉   -64.663787
+震惊  -59.597413
+黑脸  -52.096059
+柠檬树 -50.660632
+月   -35.843544
+没   -35.314616
+下   -33.095807
+放   -32.419734
+女朋友 -30.181839
+买   -27.044748
+刷   -25.685527
+掉   -25.200340
+不到  -24.450210
+发现  -22.353198
+出来  -21.994953
+刷到  -21.820684
+狗   -21.010985
+电影  -20.045093
+完   -19.489650
+养   -18.592344
+六年  -17.389626
+跑   -17.059695
+看见  -16.997039
+第几  -15.674228
+喝   -15.460073
+壳   -14.539317
+问   -14.339779
+看完  -13.226295
+以为  -13.135605
+..         ...
+个赞    0.134224
+房子    0.146354
+玩     0.154006
+拔掉    0.157278
+太土刷   0.257624
+回去    0.316117
+报应    0.336998
+平安夜   0.430056
+快门    0.459623
+变淡    0.482146
+列表    0.645796
+第一排   0.648638
+不会    0.662567
+八分    0.683388
+一儿    0.889178
+晕     0.906550
+肿     1.125241
+认出来   1.126390
+抢走    1.236764
+太矮    1.236993
+挚爱    1.245830
+寻     1.385369
+手掌    1.468326
+憨豆    1.484753
+陆地    1.552875
+看够    1.725872
+美剧    1.778123
+花苞    1.890907
+熄火    1.929277
+束腰    1.993523
+
+[100 rows x 1 columns] -------- 
+        sentiment
+赞赞    368.795529
+玫瑰    362.488782
+爱心    352.603749
+鼓掌    336.444857
+平安    333.971666
+赞赞赞   327.620442
+心心    321.801054
+强壮    320.155277
+祈祷    312.067271
+给力    310.907029
+比心    301.096871
+爱慕    294.372338
+加油    280.140035
+感谢    279.888180
+巧克力   278.767436
+英雄    270.363874
+漂亮    268.689633
+一起加油  262.744857
+辛苦    258.450228
+送心    257.300073
+人民    256.694235
+碰拳    249.913102
+骄傲    249.785924
+抱拳    243.121805
+欢迎    242.615890
+胡瓜    241.819666
+拳头    236.893977
+白衣天使  231.482056
+支持    229.162307
+祖国    227.471708
+...          ...
+好样    171.180936
+感动    170.662918
+舔屏    169.072088
+发怒    165.135381
+好好    165.061063
+色色    162.871143
+害羞    162.245337
+武汉    161.667455
+派对    161.229839
+呲牙    159.835031
+挺     157.922826
+胜利    157.309665
+真棒    156.375517
+非常    153.319008
+健康    151.146790
+调皮    150.926767
+唱     150.566192
+惊喜    150.523844
+聪明    149.270282
+爱     149.090940
+听     148.633676
+性感    148.217428
+互粉    147.956261
+伟大    147.742733
+恐惧    147.491643
+大笑    147.287290
+永远    146.985950
+心     144.977961
+喜欢    144.911681
+愿     144.327832
+
+[100 rows x 1 columns]
+描述性统计           sentiment
+count  12258.000000
+mean      25.137963
+std       25.698446
+min      -81.239655
+25%       11.403494
+50%       18.375313
+75%       30.607421
+max      368.795529
+successful create tot lexicon.
