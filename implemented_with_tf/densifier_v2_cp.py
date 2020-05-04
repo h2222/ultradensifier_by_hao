@@ -60,7 +60,7 @@ class Densifier:
                                     optimizer='sgd',
                                     orthogonalize=True,
                                     alpha=alpha,
-                                    training_steps=3000) #3000 x 100
+                                    training_steps=2000) #3000 x 100
 
         self.induced_lexicon['sentiment'] = self.embeddings.m.dot(self.Qs).dot(self.P)
         # self.induced_lexicon.to_csv('./step/step_save'+str(i_step)+'.csv', index=True, encoding='utf-8')
@@ -260,14 +260,17 @@ class Batch_Gen:
 if __name__ == "__main__":
     
     # seed words
-    labels = load_cnseed(path='./Utils/source/cn_seed_v2.csv')
-    
+    #labels_total = load_cnseed(path='./Utils/source/cn_seed_v2.csv')
+    labels_5 = load_cnseed(path='./Utils/source/cn_seed_v2_5.csv')
+    labels_10 = load_cnseed(path='./Utils/source/cn_seed_v2_10.csv')
+    labels_15 = load_cnseed(path='./Utils/source/cn_seed_v2_15.csv')
+    labels = [labels_5, labels_10, labels_15]
+    #labels = [labels_total]
     # embedding
     embs = []
     p, _, vecfs = next(os.walk('./Utils/source/vec'))
     #print(p)
     #print(vecfs[])
-
 
     # LOAD EMBEDDING
     for f in vecfs:
@@ -278,11 +281,12 @@ if __name__ == "__main__":
         embs.append((emb, f[:3]))
 
     ## TRAIN
-    for emb, name in embs :
-        densifier = Densifier(embeddings=emb)
-        densifier.train_lexicon(labels, save_path='./output/'+name+'_lexicon.csv')
-        print('successful create '+str(name)+' lexicon.')
-        del densifier
+    for i, l in enumerate(labels):
+        for emb, name in embs :
+            densifier = Densifier(embeddings=emb)
+            densifier.train_lexicon(l, save_path='./output/random_video/'+name+'_lexicon'+str(i*5)+'.csv')
+            print('successful create '+str(name)+' lexicon by uising label:', i*5)
+            del densifier
 
 
 

@@ -91,11 +91,15 @@ def load_cnseed(path='./source/cn_seed.csv'):
 
 
 if __name__ == "__main__":
-    emb = Embedding.from_fasttext_vec(path='./source/TikTok-300d-170h.vec')
+    #emb = Embedding.from_fasttext_vec(path='./source/TikTok-300d-170h.vec')
     # print(emb.m)
     # print(emb.wi)
 
     # anew test
-    print(load_anew99())
-    print(load_cnseed().columns)
+    #print(load_anew99())
+    #print(load_cnseed(path='./source/cn_seed_v2_5.csv').shape)
+    df = load_cnseed(path='./source/cn_seed_v2.csv')
+
+    print(type(df))
+    print(df.columns)
 

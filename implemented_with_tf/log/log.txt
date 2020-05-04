@@ -1,215 +1,510 @@
-/home/jiaxiang.hao/anaconda3/lib/python3.6/site-packages/h5py/__init__.py:34: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
-  from ._conv import register_converters as _register_converters
-WARNING:tensorflow:From densifier_v2_cp.py:42: The name tf.reset_default_graph is deprecated. Please use tf.compat.v1.reset_default_graph instead.
-
-WARNING:tensorflow:From densifier_v2_cp.py:125: The name tf.random_normal is deprecated. Please use tf.random.normal instead.
-
-WARNING:tensorflow:From densifier_v2_cp.py:129: The name tf.placeholder is deprecated. Please use tf.compat.v1.placeholder instead.
-
-WARNING:tensorflow:From densifier_v2_cp.py:155: The name tf.train.exponential_decay is deprecated. Please use tf.compat.v1.train.exponential_decay instead.
-
-WARNING:tensorflow:From densifier_v2_cp.py:162: The name tf.train.GradientDescentOptimizer is deprecated. Please use tf.compat.v1.train.GradientDescentOptimizer instead.
-
-WARNING:tensorflow:From densifier_v2_cp.py:174: The name tf.Session is deprecated. Please use tf.compat.v1.Session instead.
-
-2020-05-01 11:29:47.043517: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcuda.so.1
-2020-05-01 11:29:47.081846: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1640] Found device 0 with properties: 
-name: GeForce RTX 2080 Ti major: 7 minor: 5 memoryClockRate(GHz): 1.545
-pciBusID: 0000:84:00.0
-2020-05-01 11:29:47.082132: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Could not dlopen library 'libcudart.so.10.0'; dlerror: libcudart.so.10.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda/lib64:
-2020-05-01 11:29:47.082307: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Could not dlopen library 'libcublas.so.10.0'; dlerror: libcublas.so.10.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda/lib64:
-2020-05-01 11:29:47.082442: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Could not dlopen library 'libcufft.so.10.0'; dlerror: libcufft.so.10.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda/lib64:
-2020-05-01 11:29:47.082572: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Could not dlopen library 'libcurand.so.10.0'; dlerror: libcurand.so.10.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda/lib64:
-2020-05-01 11:29:47.082714: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Could not dlopen library 'libcusolver.so.10.0'; dlerror: libcusolver.so.10.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda/lib64:
-2020-05-01 11:29:47.082869: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Could not dlopen library 'libcusparse.so.10.0'; dlerror: libcusparse.so.10.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda/lib64:
-2020-05-01 11:29:47.089594: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library libcudnn.so.7
-2020-05-01 11:29:47.089638: W tensorflow/core/common_runtime/gpu/gpu_device.cc:1663] Cannot dlopen some GPU libraries. Skipping registering GPU devices...
-2020-05-01 11:29:47.090602: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
-2020-05-01 11:29:47.272131: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x5566b227a920 executing computations on platform CUDA. Devices:
-2020-05-01 11:29:47.272214: I tensorflow/compiler/xla/service/service.cc:175]   StreamExecutor device (0): GeForce RTX 2080 Ti, Compute Capability 7.5
-2020-05-01 11:29:47.277044: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2197365000 Hz
-2020-05-01 11:29:47.281847: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x5566b23b6ed0 executing computations on platform Host. Devices:
-2020-05-01 11:29:47.281925: I tensorflow/compiler/xla/service/service.cc:175]   StreamExecutor device (0): <undefined>, <undefined>
-2020-05-01 11:29:47.282053: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1181] Device interconnect StreamExecutor with strength 1 edge matrix:
-2020-05-01 11:29:47.282077: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1187]      
-WARNING:tensorflow:From densifier_v2_cp.py:175: The name tf.global_variables_initializer is deprecated. Please use tf.compat.v1.global_variables_initializer instead.
-
-2020-05-01 11:29:47.309067: W tensorflow/compiler/jit/mark_for_compilation_pass.cc:1412] (One-time warning): Not using XLA:CPU for cluster because envvar TF_XLA_FLAGS=--tf_xla_cpu_global_jit was not set.  If you want XLA:CPU, either set that envvar, or use experimental_jit_scope to enable XLA:CPU.  To confirm that XLA is active, pass --vmodule=xla_compilation_cache=1 (as a proper command-line flag, not via TF_XLA_FLAGS) or set the envvar XLA_FLAGS=--xla_hlo_profile.
-WARNING:tensorflow:From densifier_v2_cp.py:179: The name tf.train.Saver is deprecated. Please use tf.compat.v1.train.Saver instead.
-
+2020-05-04 15:47:59.126438: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+2020-05-04 15:47:59.126498: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+2020-05-04 15:47:59.126506: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+2020-05-04 15:47:59.126512: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX2 instructions, but these are available on your machine and could speed up CPU computations.
+2020-05-04 15:47:59.126518: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use FMA instructions, but these are available on your machine and could speed up CPU computations.
+2020-05-04 15:47:59.335336: I tensorflow/core/common_runtime/gpu/gpu_device.cc:955] Found device 0 with properties: 
+name: GeForce RTX 2080 Ti
+major: 7 minor: 5 memoryClockRate (GHz) 1.545
+pciBusID 0000:84:00.0
+Total memory: 10.73GiB
+Free memory: 9.79GiB
+2020-05-04 15:47:59.335396: I tensorflow/core/common_runtime/gpu/gpu_device.cc:976] DMA: 0 
+2020-05-04 15:47:59.335407: I tensorflow/core/common_runtime/gpu/gpu_device.cc:986] 0:   Y 
+2020-05-04 15:47:59.335419: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1045] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:84:00.0)
+2020-05-04 15:52:23.725808: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1045] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:84:00.0)
 ./Utils/source/vec/total.vec
 tot
 ====================================================================================================
 beginning to work on sperated pairs...
-len data separate: 2704
+len data separate: 25
 beginning to work on aligned pairs...
-Lenght of pairs_align: 2652
-eavluation: step:0 , loss : 12.068873405456543, lr:5.0, Q distance:85645.9453125
-eavluation: step:100 , loss : -147.4956817626953, lr:4.521910667419434, Q distance:10723.857421875
-eavluation: step:200 , loss : -173.90963745117188, lr:4.089535713195801, Q distance:8865.0673828125
-eavluation: step:300 , loss : -166.39096069335938, lr:3.698503017425537, Q distance:8324.544921875
-eavluation: step:400 , loss : -176.8975067138672, lr:3.344860076904297, Q distance:8592.109375
-eavluation: step:500 , loss : -169.76828002929688, lr:3.025031566619873, Q distance:7938.3310546875
-eavluation: step:600 , loss : -165.2886505126953, lr:2.7357850074768066, Q distance:7596.9052734375
-eavluation: step:700 , loss : -175.50416564941406, lr:2.4741950035095215, Q distance:7132.275390625
-eavluation: step:800 , loss : -176.35675048828125, lr:2.2376177310943604, Q distance:7646.97607421875
-eavluation: step:900 , loss : -158.9703826904297, lr:2.0236616134643555, Q distance:7828.63232421875
-eavluation: step:1000 , loss : -145.03453063964844, lr:1.830163598060608, Q distance:7234.29736328125
-eavluation: step:1100 , loss : -162.600830078125, lr:1.6551673412322998, Q distance:6918.48779296875
-eavluation: step:1200 , loss : -137.8696746826172, lr:1.4969037771224976, Q distance:7441.96728515625
-eavluation: step:1300 , loss : -181.71287536621094, lr:1.3537729978561401, Q distance:7297.3291015625
-eavluation: step:1400 , loss : -178.3748321533203, lr:1.2243281602859497, Q distance:6971.751953125
-eavluation: step:1500 , loss : -173.29139709472656, lr:1.1072605848312378, Q distance:6971.83544921875
-eavluation: step:1600 , loss : -167.4888458251953, lr:1.0013867616653442, Q distance:6557.8818359375
-eavluation: step:1700 , loss : -185.68301391601562, lr:0.9056362509727478, Q distance:6386.7529296875
-eavluation: step:1800 , loss : -167.2314453125, lr:0.8190412521362305, Q distance:6534.65283203125
-eavluation: step:1900 , loss : -147.67591857910156, lr:0.7407263517379761, Q distance:6760.20654296875
-eavluation: step:2000 , loss : -167.45068359375, lr:0.6698997020721436, Q distance:6366.724609375
-eavluation: step:2100 , loss : -150.732421875, lr:0.6058453321456909, Q distance:6265.87451171875
-eavluation: step:2200 , loss : -148.262939453125, lr:0.5479157567024231, Q distance:6384.8896484375
-eavluation: step:2300 , loss : -167.59625244140625, lr:0.4955252408981323, Q distance:6211.8525390625
-eavluation: step:2400 , loss : -161.3275146484375, lr:0.4481441378593445, Q distance:6193.650390625
-eavluation: step:2500 , loss : -153.86279296875, lr:0.4052935838699341, Q distance:6181.5341796875
-eavluation: step:2600 , loss : -145.628662109375, lr:0.3665402829647064, Q distance:6120.69482421875
-eavluation: step:2700 , loss : -179.38275146484375, lr:0.33149248361587524, Q distance:6055.111328125
-eavluation: step:2800 , loss : -189.31761169433594, lr:0.29979589581489563, Q distance:6026.603515625
-eavluation: step:2900 , loss : -164.67208862304688, lr:0.2711300849914551, Q distance:6109.0849609375
+Lenght of pairs_align: 20
+eavluation: step:0 , loss : 21.303810119628906, lr:5.0, Q distance:101044.0
+eavluation: step:100 , loss : -405.26190185546875, lr:4.521910667419434, Q distance:10599.1708984375
+eavluation: step:200 , loss : -405.7010498046875, lr:4.089535713195801, Q distance:10639.8662109375
+eavluation: step:300 , loss : -414.3956604003906, lr:3.698502779006958, Q distance:8777.759765625
+eavluation: step:400 , loss : -432.2176513671875, lr:3.344860076904297, Q distance:8380.9140625
+eavluation: step:500 , loss : -423.9581604003906, lr:3.025031566619873, Q distance:8166.74951171875
+eavluation: step:600 , loss : -412.42022705078125, lr:2.7357845306396484, Q distance:8441.4736328125
+eavluation: step:700 , loss : -430.5015869140625, lr:2.4741950035095215, Q distance:8164.5693359375
+eavluation: step:800 , loss : -408.1787109375, lr:2.2376177310943604, Q distance:9142.5361328125
+eavluation: step:900 , loss : -416.9737854003906, lr:2.0236616134643555, Q distance:7434.81640625
+eavluation: step:1000 , loss : -435.2196044921875, lr:1.8301632404327393, Q distance:7129.0654296875
+eavluation: step:1100 , loss : -428.6811828613281, lr:1.6551672220230103, Q distance:7308.6953125
+eavluation: step:1200 , loss : -411.5074768066406, lr:1.496903657913208, Q distance:7409.65087890625
+eavluation: step:1300 , loss : -410.3953857421875, lr:1.3537729978561401, Q distance:7055.37353515625
+eavluation: step:1400 , loss : -442.1618347167969, lr:1.2243281602859497, Q distance:6987.02392578125
+eavluation: step:1500 , loss : -426.98492431640625, lr:1.1072604656219482, Q distance:7017.44775390625
+eavluation: step:1600 , loss : -425.3799133300781, lr:1.0013866424560547, Q distance:6652.02685546875
+eavluation: step:1700 , loss : -434.08807373046875, lr:0.9056362509727478, Q distance:6585.39208984375
+eavluation: step:1800 , loss : -423.81402587890625, lr:0.8190411925315857, Q distance:6552.9228515625
+eavluation: step:1900 , loss : -439.1994934082031, lr:0.7407262921333313, Q distance:6380.91552734375
 Success
-最大值最小值词      sentiment
-手机  -81.239655
-钉   -64.663787
-震惊  -59.597413
-黑脸  -52.096059
-柠檬树 -50.660632
-月   -35.843544
-没   -35.314616
-下   -33.095807
-放   -32.419734
-女朋友 -30.181839
-买   -27.044748
-刷   -25.685527
-掉   -25.200340
-不到  -24.450210
-发现  -22.353198
-出来  -21.994953
-刷到  -21.820684
-狗   -21.010985
-电影  -20.045093
-完   -19.489650
-养   -18.592344
-六年  -17.389626
-跑   -17.059695
-看见  -16.997039
-第几  -15.674228
-喝   -15.460073
-壳   -14.539317
-问   -14.339779
-看完  -13.226295
-以为  -13.135605
-..         ...
-个赞    0.134224
-房子    0.146354
-玩     0.154006
-拔掉    0.157278
-太土刷   0.257624
-回去    0.316117
-报应    0.336998
-平安夜   0.430056
-快门    0.459623
-变淡    0.482146
-列表    0.645796
-第一排   0.648638
-不会    0.662567
-八分    0.683388
-一儿    0.889178
-晕     0.906550
-肿     1.125241
-认出来   1.126390
-抢走    1.236764
-太矮    1.236993
-挚爱    1.245830
-寻     1.385369
-手掌    1.468326
-憨豆    1.484753
-陆地    1.552875
-看够    1.725872
-美剧    1.778123
-花苞    1.890907
-熄火    1.929277
-束腰    1.993523
+最大值最小值词           sentiment
+手机      -734.752639
+黑脸      -683.907533
+震惊      -631.585928
+钉       -594.577252
+电影      -533.044909
+刷       -494.837584
+柠檬树     -478.572150
+下       -462.909048
+买       -444.209892
+女朋友     -440.316403
+问       -429.521284
+抠鼻      -427.431293
+刷到      -419.885791
+放       -410.839389
+完       -409.544398
+月       -404.013665
+喝       -399.649615
+男朋友     -391.022239
+不到      -387.028495
+刚刚      -386.463306
+酷拽      -374.447762
+疑问      -372.987281
+快       -372.274657
+更新      -370.617603
+刚       -348.740906
+一次      -327.018717
+没       -317.106788
+柠檬      -302.792233
+白眼      -297.221417
+不失礼貌的微笑 -293.192084
+...             ...
+男       -174.047850
+苹果      -173.894913
+不想      -167.048327
+锁       -166.774791
+视频      -166.675909
+不用      -163.759525
+一下      -162.633542
+今天      -161.790840
+厕所      -159.923077
+年       -159.524641
+家里      -159.004532
+想       -158.914801
+壳       -158.149393
+突然      -157.718358
+回去      -157.648273
+以为      -153.346693
+现在      -153.271410
+名       -151.185945
+看       -150.281070
+看过      -150.031536
+玩       -149.936944
+有没有     -146.371144
+屏幕      -145.145881
+居然      -144.639849
+鱼       -144.555266
+扔       -142.604198
+老公      -141.809756
+这部      -139.508652
+发       -139.287547
+不会      -138.261444
 
 [100 rows x 1 columns] -------- 
-        sentiment
-赞赞    368.795529
-玫瑰    362.488782
-爱心    352.603749
-鼓掌    336.444857
-平安    333.971666
-赞赞赞   327.620442
-心心    321.801054
-强壮    320.155277
-祈祷    312.067271
-给力    310.907029
-比心    301.096871
-爱慕    294.372338
-加油    280.140035
-感谢    279.888180
-巧克力   278.767436
-英雄    270.363874
-漂亮    268.689633
-一起加油  262.744857
-辛苦    258.450228
-送心    257.300073
-人民    256.694235
-碰拳    249.913102
-骄傲    249.785924
-抱拳    243.121805
-欢迎    242.615890
-胡瓜    241.819666
-拳头    236.893977
-白衣天使  231.482056
-支持    229.162307
-祖国    227.471708
-...          ...
-好样    171.180936
-感动    170.662918
-舔屏    169.072088
-发怒    165.135381
-好好    165.061063
-色色    162.871143
-害羞    162.245337
-武汉    161.667455
-派对    161.229839
-呲牙    159.835031
-挺     157.922826
-胜利    157.309665
-真棒    156.375517
-非常    153.319008
-健康    151.146790
-调皮    150.926767
-唱     150.566192
-惊喜    150.523844
-聪明    149.270282
-爱     149.090940
-听     148.633676
-性感    148.217428
-互粉    147.956261
-伟大    147.742733
-恐惧    147.491643
-大笑    147.287290
-永远    146.985950
-心     144.977961
-喜欢    144.911681
-愿     144.327832
+         sentiment
+赞赞    2140.410939
+鼓掌    2014.158625
+赞赞赞   1868.500802
+玫瑰    1856.777316
+爱心    1782.665409
+平安    1608.860379
+祈祷    1493.545024
+给力    1489.428607
+感谢    1427.137022
+巧克力   1384.300214
+心心    1382.822554
+比心    1344.155645
+英雄    1328.805548
+一起加油  1290.404758
+辛苦    1267.462487
+漂亮    1265.807254
+强壮    1228.781693
+爱慕    1225.434651
+骄傲    1189.891706
+太     1186.748779
+胡瓜    1161.786496
+人民    1150.319498
+欢迎    1135.385694
+加油    1111.548292
+致敬    1108.259860
+白衣天使  1100.469351
+抱拳    1088.806657
+赞     1085.974560
+哒     1075.650720
+迷人    1060.113245
+...           ...
+我爱你    740.535365
+聪明     734.695163
+保护     733.983834
+非常     728.928727
+来看我    720.759638
+挺      700.100992
+性感     697.483362
+风格     692.319764
+太好了    687.307274
+凯旋     687.088482
+大笑     685.435931
+健康     682.809355
+胜利     682.579095
+唱      682.364983
+恐惧     669.041711
+小鼓掌    665.721648
+美美     663.926558
+色色     663.253185
+憨笑     660.367211
+心      652.339306
+宝贝     650.550370
+妈妈     649.909278
+伟大     647.554194
+棒棒     646.574330
+戒指     640.011414
+不错     639.489884
+越来越    637.880606
+舔屏     636.046268
+万岁     635.403578
+好好     635.313796
 
 [100 rows x 1 columns]
 描述性统计           sentiment
 count  12258.000000
-mean      25.137963
-std       25.698446
-min      -81.239655
-25%       11.403494
-50%       18.375313
-75%       30.607421
-max      368.795529
-successful create tot lexicon.
+mean      75.007636
+std      119.395440
+min     -734.752639
+25%       29.248218
+50%       50.556104
+75%       87.296003
+max     2140.410939
+successful create tot lexicon by uising label: 0
+====================================================================================================
+beginning to work on sperated pairs...
+len data separate: 100
+beginning to work on aligned pairs...
+Lenght of pairs_align: 90
+eavluation: step:0 , loss : 27.07680320739746, lr:5.0, Q distance:94214.453125
+eavluation: step:100 , loss : -351.09515380859375, lr:4.521910667419434, Q distance:10525.3798828125
+eavluation: step:200 , loss : -343.4851989746094, lr:4.089535713195801, Q distance:11226.0400390625
+eavluation: step:300 , loss : -339.3226318359375, lr:3.698502779006958, Q distance:9266.37109375
+eavluation: step:400 , loss : -321.94866943359375, lr:3.344860076904297, Q distance:9758.361328125
+eavluation: step:500 , loss : -283.4837951660156, lr:3.025031566619873, Q distance:10774.880859375
+eavluation: step:600 , loss : -310.7701416015625, lr:2.7357845306396484, Q distance:8192.607421875
+eavluation: step:700 , loss : -307.2661437988281, lr:2.4741950035095215, Q distance:7686.0615234375
+eavluation: step:800 , loss : -335.2619323730469, lr:2.2376177310943604, Q distance:7541.21533203125
+eavluation: step:900 , loss : -331.1398620605469, lr:2.0236616134643555, Q distance:8220.5419921875
+eavluation: step:1000 , loss : -300.2015686035156, lr:1.8301632404327393, Q distance:8211.70703125
+eavluation: step:1100 , loss : -309.9839782714844, lr:1.6551672220230103, Q distance:7286.14453125
+eavluation: step:1200 , loss : -303.217041015625, lr:1.496903657913208, Q distance:7380.240234375
+eavluation: step:1300 , loss : -314.2183837890625, lr:1.3537729978561401, Q distance:7095.35791015625
+eavluation: step:1400 , loss : -327.8514099121094, lr:1.2243281602859497, Q distance:7124.53173828125
+eavluation: step:1500 , loss : -297.50445556640625, lr:1.1072604656219482, Q distance:7419.244140625
+eavluation: step:1600 , loss : -334.3157958984375, lr:1.0013866424560547, Q distance:6854.2890625
+eavluation: step:1700 , loss : -345.1148986816406, lr:0.9056362509727478, Q distance:6523.6484375
+eavluation: step:1800 , loss : -336.5740051269531, lr:0.8190411925315857, Q distance:6441.392578125
+eavluation: step:1900 , loss : -303.0355224609375, lr:0.7407262921333313, Q distance:7105.88427734375
+Success
+最大值最小值词       sentiment
+手机  -426.593927
+震惊  -360.642825
+钉   -332.320801
+柠檬树 -321.880519
+黑脸  -316.594255
+买   -294.303033
+放   -271.215787
+问   -270.399903
+下   -244.021432
+月   -240.635070
+不到  -239.700650
+喝   -231.383903
+没   -226.056303
+女朋友 -225.546669
+抠鼻  -217.553658
+柠檬  -209.479792
+酷拽  -188.436629
+跑   -184.724029
+刷   -181.726176
+完   -180.580042
+养   -176.893098
+白眼  -167.692867
+一次  -163.297114
+刷到  -161.870584
+找   -161.106443
+掉   -155.760051
+约   -144.311665
+快   -143.960324
+去   -142.871138
+看见  -139.650520
+..          ...
+卖    -65.786053
+看到   -65.545719
+厕所   -64.358679
+是不是  -63.404104
+今年   -61.212829
+之前   -60.853884
+以为   -59.611251
+六年   -57.389602
+嫂子   -56.803879
+东西   -56.149497
+房子   -56.032299
+今天   -55.161583
+鱼    -54.462020
+锁    -52.030682
+包拯   -51.456386
+扔    -50.730927
+居然   -48.897624
+年    -46.485072
+有人   -46.412852
+突然   -46.073189
+后    -43.127933
+老公   -43.012053
+举报   -42.430814
+呆无辜  -42.264287
+半个   -41.328171
+弱弱   -41.317013
+昨天   -39.809269
+不了   -38.611209
+不要   -35.867355
+不行   -35.642936
+
+[100 rows x 1 columns]2020-05-04 15:57:01.648972: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1045] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce RTX 2080 Ti, pci bus id: 0000:84:00.0)
+ -------- 
+         sentiment
+赞赞    1561.255943
+玫瑰    1482.982924
+爱心    1442.779811
+赞赞赞   1384.830330
+鼓掌    1339.620206
+感谢    1319.902997
+平安    1180.180275
+给力    1148.760062
+比心    1117.905651
+祈祷    1075.062440
+巧克力   1071.846306
+爱慕    1049.673205
+漂亮    1007.212039
+心心     981.376714
+强壮     970.430436
+辛苦     945.672384
+英雄     887.770081
+胡瓜     884.928738
+可爱     878.779209
+抱拳     875.930900
+人民     875.789913
+赞      850.130417
+骄傲     846.219000
+咖啡     837.030212
+加油     826.869347
+哒      823.288565
+迷人     817.992338
+一起加油   816.820972
+白衣天使   807.624266
+支持     804.641976
+...           ...
+挺      613.430717
+真棒     606.143829
+来看我    600.318518
+天使     600.296495
+色色     588.171576
+派对     581.857666
+回家     579.016651
+非常     577.463629
+不错     574.762445
+舔屏     573.499307
+聪明     569.266237
+耶      566.910821
+性感     565.652545
+恐惧     565.133788
+我爱你    559.562017
+小鼓掌    555.819544
+勤洗手    550.532498
+美美     533.830521
+爱      532.813795
+健康     531.102379
+保护     529.212236
+害羞     526.648672
+唱歌     524.276974
+特别     521.827690
+气质     519.942304
+调皮     516.105384
+互粉     515.531194
+太好了    512.572819
+宝贝     511.190687
+太美     509.566743
+
+[100 rows x 1 columns]
+描述性统计           sentiment
+count  12258.000000
+mean      74.023223
+std       92.146489
+min     -426.593927
+25%       31.736636
+50%       51.972769
+75%       87.695638
+max     1561.255943
+successful create tot lexicon by uising label: 5
+====================================================================================================
+beginning to work on sperated pairs...
+len data separate: 225
+beginning to work on aligned pairs...
+Lenght of pairs_align: 210
+eavluation: step:0 , loss : -6.277164936065674, lr:5.0, Q distance:93020.3359375
+eavluation: step:100 , loss : -295.1461181640625, lr:4.521910667419434, Q distance:10170.7841796875
+eavluation: step:200 , loss : -266.771240234375, lr:4.089535713195801, Q distance:11466.064453125
+eavluation: step:300 , loss : -294.3251647949219, lr:3.698502779006958, Q distance:8253.2041015625
+eavluation: step:400 , loss : -281.3127746582031, lr:3.344860076904297, Q distance:9118.6953125
+eavluation: step:500 , loss : -285.619873046875, lr:3.025031566619873, Q distance:8426.40234375
+eavluation: step:600 , loss : -288.3694763183594, lr:2.7357845306396484, Q distance:8643.9921875
+eavluation: step:700 , loss : -268.50177001953125, lr:2.4741950035095215, Q distance:8508.3994140625
+eavluation: step:800 , loss : -288.18450927734375, lr:2.2376177310943604, Q distance:7675.9130859375
+eavluation: step:900 , loss : -269.67999267578125, lr:2.0236616134643555, Q distance:8079.55029296875
+eavluation: step:1000 , loss : -302.07916259765625, lr:1.8301632404327393, Q distance:7799.5283203125
+eavluation: step:1100 , loss : -278.2028503417969, lr:1.6551672220230103, Q distance:8021.11669921875
+eavluation: step:1200 , loss : -290.3170166015625, lr:1.496903657913208, Q distance:7494.8525390625
+eavluation: step:1300 , loss : -255.569091796875, lr:1.3537729978561401, Q distance:7978.41748046875
+eavluation: step:1400 , loss : -265.4213562011719, lr:1.2243281602859497, Q distance:6982.15673828125
+eavluation: step:1500 , loss : -268.43359375, lr:1.1072604656219482, Q distance:6897.40478515625
+eavluation: step:1600 , loss : -264.7135314941406, lr:1.0013866424560547, Q distance:6814.60400390625
+eavluation: step:1700 , loss : -268.784423828125, lr:0.9056362509727478, Q distance:6907.46435546875
+eavluation: step:1800 , loss : -280.3550109863281, lr:0.8190411925315857, Q distance:6839.9521484375
+eavluation: step:1900 , loss : -286.6352233886719, lr:0.7407262921333313, Q distance:6323.9169921875
+Success
+最大值最小值词        sentiment
+手机   -585.398959
+钉    -520.300143
+柠檬树  -448.439516
+震惊   -363.907068
+没    -351.213835
+下    -334.441284
+不到   -311.711576
+放    -295.277561
+女朋友  -288.074287
+黑脸   -285.638357
+问    -276.989134
+一次   -275.192647
+刷到   -268.326859
+跑    -267.371964
+更新   -260.457091
+刷    -250.112235
+已经   -249.452032
+找    -247.001111
+月    -244.668106
+买    -243.504388
+柠檬   -242.792188
+男朋友  -234.275289
+没有   -229.002008
+刚刚   -225.034630
+玩    -221.193483
+掉    -220.101042
+疑问   -217.965677
+约    -216.096470
+开    -215.065141
+发现   -213.182972
+...          ...
+不用   -140.111264
+不想   -137.014923
+思考   -130.032623
+一句   -128.044609
+不能   -123.467085
+时间   -123.382477
+发    -122.865186
+壳    -122.741327
+回去   -121.511936
+白眼   -120.505508
+老公   -119.275799
+以为   -118.832922
+几天   -118.219607
+动态   -115.317108
+睡    -115.133580
+出去   -113.629982
+举报   -113.020729
+不行   -106.379122
+包拯   -106.202874
+赶紧   -105.486372
+我想静静 -104.092106
+先    -103.824154
+隔离   -102.569143
+为啥   -102.512647
+房子   -102.286184
+屏    -100.748061
+进     -99.671642
+差点    -99.517547
+可能    -99.346122
+嫂子    -97.758912
+
+[100 rows x 1 columns] -------- 
+        sentiment
+爱心   1114.279407
+赞赞   1097.810757
+玫瑰   1074.125952
+赞赞赞   994.032780
+漂亮    977.314626
+鼓掌    939.257598
+给力    923.354773
+可爱    907.557043
+爱慕    888.104302
+比心    869.803592
+心心    830.957036
+强壮    803.879911
+好听    799.247907
+风格    794.411803
+祈祷    788.063748
+巧克力   771.725297
+平安    749.578912
+哒     741.213760
+好看    722.847392
+加油    712.649584
+感谢    704.812268
+送心    703.288822
+迷人    696.104022
+厉害    685.553923
+太     683.810850
+色色色   676.226932
+真     674.253327
+抱拳    673.660790
+飞吻    663.599973
+胡瓜    659.106626
+..           ...
+年轻    494.039561
+非常    493.695535
+嘴唇    492.707345
+人民    489.244595
+惊喜    485.898457
+好样    484.130222
+爱     483.581198
+感动    483.559544
+太美    480.482985
+宝贝    475.691731
+天使    475.451799
+小鼓掌   475.355062
+我爱你   474.632203
+姐姐    469.541693
+美美    467.799811
+愉快    465.949485
+调皮    457.268317
+中国    456.342768
+祝     455.652684
+气质    454.825551
+耶     451.374247
+身材    450.939579
+一生    449.687569
+越来越   448.797304
+超     446.767130
+互粉    445.761682
+好美    443.755976
+超级    438.596156
+欢迎    435.561403
+谢谢    435.507069
+
+[100 rows x 1 columns]
+描述性统计           sentiment
+count  12258.000000
+mean      48.214331
+std       76.151311
+min     -585.398959
+25%       18.775792
+50%       32.560952
+75%       56.615739
+max     1114.279407
+successful create tot lexicon by uising label: 10
