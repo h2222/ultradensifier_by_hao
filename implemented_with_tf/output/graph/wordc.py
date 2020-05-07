@@ -65,9 +65,9 @@ def graph(r_path, sw_path):
 
 def get_result(path):
     sample = pd.read_csv(path, encoding='utf-8')
-    x = list(sample['sentiment'])
+    x = list(sample['sentiment'])[:200]
     y = [randint(-100, 100) for i in range(len(x))]
-    n = list(sample['word'])
+    n = list(sample['word'])[:200]
 
     return (x, y, n)
 
@@ -75,24 +75,29 @@ def get_result(path):
 # load line graph
 def get_result_line(path):
     sample = pd.read_csv(path, encoding='utf-8')
-    y = sorted(list(sample['sentiment']), reverse=True)
+    y = list(sample['sentiment'])
     x = [i for i in range(len(y))]
     return (x, y)
 
 
 # graph pca
-def graph_pca(item=None):
+def graph_pca(item=None, line=True):
     plt.figure(figsize=(15, 15))
-    plt.plot(item['PCA'][0], item['PCA'][1], 'bo', color='red', ms=0.001)
+
+    if line:
+        plt.plot(item['PCA'][0], item['PCA'][1], '-', color='red')
+    else:
+        plt.plot(item['PCA'][0], item['PCA'][1], 'bo', color='red', ms=0.001)
+    
     plt.title('The lexicon based on PCA')
     plt.xlabel('principle components')
     
-    x = item['PCA'][0]
-    y = item['PCA'][1]
-    n = item['PCA'][2]
-
-    for i, txt in enumerate(n):
-        plt.text(x=x[i], y=y[i], s=txt, fontsize=10, color='red')
+    if not line:
+        x = item['PCA'][0]
+        y = item['PCA'][1]
+        n = item['PCA'][2]
+        for i, txt in enumerate(n):
+            plt.text(x=x[i], y=y[i], s=txt, fontsize=10, color='red')
 
     plt.show()
 
@@ -138,11 +143,11 @@ if __name__ == "__main__":
     sw = ['5', '10', '15']
     item = {}
     ##### point #####
-    # for s in sw:
-    #     # graph(r_path='../random_video/tot_lexicon'+s+'.csv', sw_path='../../Utils/source/cn_seed_v2_'+s+'.csv')
-    #     result = get_result(path='../random_video/tot_lexicon'+s+'.csv', s=s)
-    #     item[s] = result
-    # graph_point(item=item)
+    for s in sw:
+        # graph(r_path='../random_video/tot_lexicon'+s+'.csv', sw_path='../../Utils/source/cn_seed_v2_'+s+'.csv')
+        result = get_result(path='../random_video/tot_lexicon'+s+'.csv')
+        item[s] = result
+    graph_point(item=item)
     
 
     ##### PCA ######
@@ -152,7 +157,12 @@ if __name__ == "__main__":
 
 
     ##### line ######
-    for s in sw:
-        result = get_result_line(path='../random_video/tot_lexicon'+s+'.csv')
-        item[s] = result
-    graph_line(item=item)
+    # for s in sw:
+    #     result = get_result_line(path='../random_video/tot_lexicon'+s+'.csv')
+    #     item[s] = result
+    # graph_line(item=item)
+
+
+    # result = get_result_line(path='../../../PCA_exp/PCA_result.csv')
+    # item['PCA'] = result
+    # graph_pca(item=item)
